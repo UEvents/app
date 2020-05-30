@@ -113,7 +113,6 @@ class _DatePickerState extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       margin: EdgeInsets.symmetric(vertical: 10),
       height: widget.height,
       child: ListView.builder(

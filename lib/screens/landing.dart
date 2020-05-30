@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uevents/data/data.dart';
+import 'package:uevents/services/auth.dart';
 import 'package:uevents/widgets/calendar.dart';
 import 'package:uevents/widgets/eventCard.dart';
 import 'package:uevents/widgets/eventExtended.dart';
@@ -59,13 +60,16 @@ class Landing extends State<LandingPage>
             CustomListTile(Icons.person, 'Профиль', ()=>{}),
             CustomListTile(Icons.notifications, 'Уведомления', ()=>{}),
             CustomListTile(Icons.settings, 'Настройки', ()=>{}),
+            CustomListTile(Icons.exit_to_app, 'Выйти', () {
+              AuthService().logOut();
+            }),
             ],
           )
         ),
         //здесь нужно сделать выгрузку с бд всех событий (пока календарь не сделаем, всех)
 
         body: Column(children: [
-          Calendar.createCalendarBar(context),
+          Calendar.createCalendarBar(context), //<================== calendarbar
           widgets
           //EventExtended.getExtendedEvent(context, _data[0])
           

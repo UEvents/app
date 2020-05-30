@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "345092741588",
+    "firebase_url": "https://uevents-dev.firebaseio.com",
+    "project_id": "uevents-dev",
+    "storage_bucket": "uevents-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345092741588:android:be314a10a3fa567af11e41",
+        "android_client_info": {
+          "package_name": "com.UEvenetTest.UEvent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345092741588-23ulc7skacs53nibi3mphgnrjd0uo77b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYuusE21MAjMFa4dj6EWNmmYWAFKoXPAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345092741588-23ulc7skacs53nibi3mphgnrjd0uo77b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

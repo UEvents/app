@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uevents/screens/landing.dart';
+import 'package:uevents/screens/switcher.dart';
+
+import 'domain/user.dart';
+import 'services/auth.dart';
 
 void main() => runApp(UEvents());
 
@@ -7,14 +12,15 @@ class UEvents extends StatelessWidget
 {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fitness',
-      theme: ThemeData( 
-        //primaryColor: Color.fromRGBO(60, 65, 85, 1),
-        
-        textTheme: TextTheme(headline6: TextStyle(color: Colors.white))
-      ),
-      home: LandingPage()
+    return StreamProvider<User>.value(
+      value: AuthService().currentUser,
+        child: MaterialApp(
+          title: 'U.Events',
+          theme: ThemeData( 
+            textTheme: TextTheme(headline6: TextStyle(color: Colors.white))
+          ),
+          home: Switcher()
+        )
     );
   }
 }
