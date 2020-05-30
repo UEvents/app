@@ -17,6 +17,7 @@ class UEvents extends StatelessWidget
         child: MaterialApp(
           title: 'U.Events',
           theme: ThemeData( 
+            primaryColor: Colors.pinkAccent,
             textTheme: TextTheme(headline6: TextStyle(color: Colors.white))
           ),
           home: Switcher()

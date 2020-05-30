@@ -8,16 +8,16 @@ class SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(0.0),
-                  side: BorderSide(color: Colors.pinkAccent)),
-              onPressed: () {
-                onPressed();
-              },
-              color: Colors.pinkAccent,
-              textColor: Colors.white,
-              child:
-                  Icon(Icons.save),
-            );
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(0.0),
+          side: BorderSide(color: Colors.pinkAccent)),
+      onPressed: () {
+        onPressed();
+      },
+      color: Colors.pinkAccent,
+      textColor: Colors.white,
+      child:
+          Icon(Icons.save),
+    );
   }
 }

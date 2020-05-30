@@ -31,15 +31,12 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
       return RaisedButton(
         splashColor: Colors.white24,
         highlightColor: Colors.white24,
-        color: Colors.blue,
-        child: Text(text,
-            style: TextStyle(
+        color: Colors.pinkAccent,
+        child: Text(text, style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 fontSize: 20)),
-        onPressed: () {
-          func();
-        },
+        onPressed: () { func(); },
       );
     }
 
@@ -64,7 +61,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
               hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
               hintText: hint,
               focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 2)),
+                  borderSide: BorderSide(color: Colors.pinkAccent, width: 2)),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey, width: 1)),
               prefixIcon: Padding(
@@ -80,27 +77,31 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
     Widget _form(String label, void func()) {
       return Container(
           child: Column(children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(bottom: 10, top: 10),
-          child: _input(Icon(Icons.email), 'Логин', _emailController, false),
-        ),
-        Padding(
-            padding: EdgeInsets.only(bottom: 20),
-            child:
-                _input(Icon(Icons.lock), 'Пароль', _passwordController, true)),
-        SizedBox(
-          height: 20,
-        ),
-        Padding(
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
+            Padding(
+              padding: EdgeInsets.only(bottom: 10, top: 10),
+              child: _input(Icon(Icons.email), 'Логин', _emailController, false),
             ),
-            child: Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                child: _button(label, func)))
-      ]));
+            SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 20),
+              child:
+                    _input(Icon(Icons.lock), 'Пароль', _passwordController, true)),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+                padding: EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                ),
+                child: Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    child: _button(label, func)))
+            ])
+          );
     }
 
     Widget _registerForm(String label, void func()) {
@@ -149,7 +150,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
       User user = await _authService.signInWithEmailAndPasswor(
           _email.trim(), _password.trim());
       if (user == null) {
-        buildToast("Не возможно войти, пожалуйста, проверьте логин/пароль");
+        buildToast("Не удается войти. Пожалуйста, проверьте логин/пароль");
       } else {
         _emailController.clear();
         _passwordController.clear();
@@ -187,45 +188,47 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
               backgroundColor: Theme.of(context).primaryColor,
             )),
         backgroundColor: Colors.white,
-        body: Column(
-          children: <Widget>[
-            _logo(),
-            (showLogin
-                ? Column(
-                    children: <Widget>[
-                      _form('ВОЙТИ', _loginButtonAction),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: GestureDetector(
-                            child: Text('Не зарегистрированы?',
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.grey)),
-                            onTap: () {
-                              setState(() {
-                                showLogin = false;
-                              });
-                            }),
-                      )
-                    ],
+        body: Container(
+          child: ListView(
+            children: <Widget>[
+              _logo(),
+              SizedBox(height: 20),
+              (showLogin ? Column(
+                children: <Widget>[
+                  _form('ВОЙТИ', _loginButtonAction),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: GestureDetector(
+                        child: Text('Не зарегистрированы?',
+                            style: TextStyle(
+                                fontSize: 20, color: Colors.grey)),
+                        onTap: () {
+                          setState(() {
+                            showLogin = false;
+                          });
+                        }),
                   )
-                : Column(
-                    children: <Widget>[
-                      _registerForm('Регистрация', _registerButtonAction),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: GestureDetector(
-                            child: Text('Ввести логин и пароль',
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.grey)),
-                            onTap: () {
-                              setState(() {
-                                showLogin = true;
-                              });
-                            }),
-                      )
-                    ],
-                  ))
-          ],
+                ],
+                    )
+                  : Column(
+                      children: <Widget>[
+                        _registerForm('Регистрация', _registerButtonAction),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: GestureDetector(
+                              child: Text('Ввести логин и пароль',
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.grey)),
+                              onTap: () {
+                                setState(() {
+                                  showLogin = true;
+                                });
+                              }),
+                        )
+                      ],
+                    ))
+            ],
+          ),
         ));
   }
 }

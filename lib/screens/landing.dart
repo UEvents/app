@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uevents/data/data.dart';
+import 'package:uevents/services/addEvent.dart';
 import 'package:uevents/services/auth.dart';
 import 'package:uevents/widgets/calendar.dart';
 import 'package:uevents/widgets/eventCard.dart';
@@ -9,15 +11,16 @@ import 'package:uevents/widgets/eventExtended.dart';
 class Landing extends State<LandingPage>
 {
   List<Data> _data = [
-    new Data("1", "Семинар по машинному обучению", _loremIpsum + _loremIpsum, "Organizer", "Address1", _loremIpsum),
-    new Data("1", "Title2", _loremIpsum, "Organizer", "Address2", _loremIpsum),
-    new Data("1", "Title3", _loremIpsum, "Organizer", "Address3", _loremIpsum),
+    new Data("1", "Семинар по машинному обучению", _loremIpsum + _loremIpsum, "Organizer", "Address1", _loremIpsum, 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Yandex_Browser_logo.svg/1200px-Yandex_Browser_logo.svg.png'),
+    new Data("1", "Title2", _loremIpsum, "Organizer", "Address2", _loremIpsum, 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Yandex_Browser_logo.svg/1200px-Yandex_Browser_logo.svg.png'),
+    new Data("1", "Title3", _loremIpsum, "Organizer", "Address3", _loremIpsum, 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Yandex_Browser_logo.svg/1200px-Yandex_Browser_logo.svg.png'),
   ];
 
   static final String _loremIpsum = 'Lorem itfesgdfhgjhklikjhgfds amet, consectetur adipiscing elit. Donec tincidunt molestie ullamcorper. Pellentesque eleifend interdum lacus et rhoncus. ';
 
   @override
   Widget build(BuildContext context) { //на основе данных с базы (_data) создает виджеты-карточки
+    
     var widgets = Expanded(
       child: ListView.builder(
         itemCount: _data.length,
@@ -69,12 +72,17 @@ class Landing extends State<LandingPage>
         //здесь нужно сделать выгрузку с бд всех событий (пока календарь не сделаем, всех)
 
         body: Column(children: [
-          Calendar.createCalendarBar(context), //<================== calendarbar
+          Calendar.createCalendarBar(context), //<================== calendarBar
           widgets
-          //EventExtended.getExtendedEvent(context, _data[0])
-          
-         ]
-        )
+        ]),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            backgroundColor: Colors.white,
+            foregroundColor: Theme.of(context).primaryColor,
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddEvent()));
+            },    
+        ),
       ) 
     );
   }

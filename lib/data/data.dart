@@ -5,17 +5,27 @@ class Data {
   String description;
   String organizer;
   String address;
-  String imageSrc = "https://p2.zoon.ru/preview/RPCJpDRsfbksTfEgjTis7Q/884x440x85/1/8/c/original_5a3bd437a24fd9578d27e593_5b05cb44823f9.jpg";
+  String imageSrc;
 
-  Data(this.uid, this.title, this.description, this.organizer, this.address,
-      this.shortDescription);
+  Data(this.uid,this.title, this.description, this.organizer, this.address,
+      this.shortDescription, this.imageSrc);
 
   Data copy() {
     return Data(this.uid, this.title, this.description, this.organizer,
-        this.address, this.shortDescription);
+        this.address, this.shortDescription, this.imageSrc);
   }
 
-  Map<String, dynamic> toMap() {
+  Data.fromJson(String uid, Map<String, dynamic> data){
+    uid = uid;
+    title = data['title'];
+    shortDescription = data['shortDescription'];
+    description = data['description'];
+    organizer = data['organizer'];
+    address = data['address'];
+    imageSrc = data['picture'];
+  }
+
+   Map<String, dynamic> toMap(){
     return {
       "title": title,
       "description": description,
@@ -23,6 +33,7 @@ class Data {
       "organizer": organizer,
       "uid": uid,
       "address": address,
+      "imageSrc": imageSrc,
     };
   }
 }
