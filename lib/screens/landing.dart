@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uevents/data/data.dart';
+import 'package:uevents/domain/showEvent.dart';
 import 'package:uevents/services/addEvent.dart';
 import 'package:uevents/services/auth.dart';
 import 'package:uevents/widgets/calendar.dart';
@@ -73,7 +74,7 @@ class Landing extends State<LandingPage>
 
         body: Column(children: [
           Calendar.createCalendarBar(context), //<================== calendarBar
-          widgets
+          EventList()
         ]),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),

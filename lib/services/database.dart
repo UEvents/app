@@ -7,4 +7,10 @@ class DatabaseService{
   Future addOrUpdateEvent(Data events)  async{
     return await _eventCollection.document(events.uid).setData(events.toMap());
   }
+
+  Stream<List<Data>> getEvents() {
+    return _eventCollection.snapshots().map((QuerySnapshot data) =>
+        data.documents.map(
+            (DocumentSnapshot doc) => Data.fromJson(doc.documentID, doc.data)).toList());
+  }
 }
