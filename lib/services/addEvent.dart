@@ -45,9 +45,13 @@ class _AddEventState extends State<AddEvent> {
       if (event.uid == 'id') {
         event.uid = user.id + now.toString();
       }
+
       await DatabaseService().addOrUpdateEvent(event);
-      Navigator.of(context).pop(event);
-    } else {
+      Navigator.of(context).pop();
+      
+    }
+    else
+    {
       buildToast('Упс! Что-то пошло не так');
     }
   }

@@ -22,7 +22,7 @@ class Data {
     description = data['description'];
     organizer = data['organizer'];
     address = data['address'];
-    imageSrc = data['picture'];
+    imageSrc = data['imageSrc'];
   }
 
    Map<String, dynamic> toMap(){
