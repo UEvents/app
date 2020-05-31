@@ -105,7 +105,7 @@ class EventCard {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 14),
-                            child: Text('14:00 - 16:00'),
+                            child: Text(eventData.date),
                           )
                         ],),
                         Container(
