@@ -6,13 +6,13 @@ class Data {
   String organizer;
   String address;
   String imageSrc;
-
+  String date;
   Data(this.uid,this.title, this.description, this.organizer, this.address,
-      this.shortDescription, this.imageSrc);
+      this.shortDescription, this.imageSrc, this.date);
 
   Data copy() {
     return Data(this.uid, this.title, this.description, this.organizer,
-        this.address, this.shortDescription, this.imageSrc);
+        this.address, this.shortDescription, this.imageSrc, this.date);
   }
 
   Data.fromJson(String uid, Map<String, dynamic> data){
@@ -23,6 +23,7 @@ class Data {
     organizer = data['organizer'];
     address = data['address'];
     imageSrc = data['imageSrc'];
+    date = data['date'];
   }
 
    Map<String, dynamic> toMap(){
@@ -34,6 +35,7 @@ class Data {
       "uid": uid,
       "address": address,
       "imageSrc": imageSrc,
+      "date": date,
     };
   }
 }
