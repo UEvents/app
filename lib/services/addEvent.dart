@@ -21,17 +21,19 @@ class _AddEventState extends State<AddEvent> {
   final _fbKey = GlobalKey<FormBuilderState>();
   User user;
   final format = DateFormat("yyyy-MM-dd HH:mm");
+  final timeformat = DateFormat("HH:mm");
 
   Data event = Data(
-      'id',
-      'a',
-      'a',
-      'a',
-      'a',
-      'a',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Yandex_Browser_logo.svg/1200px-Yandex_Browser_logo.svg.png',
-      DateTime.now().toString(),
-      );
+    'id',
+    'a',
+    'a',
+    'a',
+    'a',
+    'a',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Yandex_Browser_logo.svg/1200px-Yandex_Browser_logo.svg.png',
+    DateTime.now().toString(),
+    DateTime.now().toString(),
+  );
 
   @override
   void initState() {
@@ -171,7 +173,7 @@ class _AddEventState extends State<AddEvent> {
                         ],
                       ),
                       Text('Дата и время начала (${format.pattern})',
-                          style: TextStyle(color: Colors.grey, height: 2)),
+                          style: TextStyle(color: Colors.grey, height: 1.2)),
                       DateTimeField(
                         format: format,
                         onShowPicker: (context, currentValue) async {
@@ -187,12 +189,26 @@ class _AddEventState extends State<AddEvent> {
                                   currentValue ?? DateTime.now()),
                             );
                             if (date != null && time != null) {
-                              event.date = DateTimeField.combine(date, time).toString();
+                              event.date =
+                                  DateTimeField.combine(date, time).toString();
                               return DateTimeField.combine(date, time);
                             }
                           } else {
                             return currentValue;
                           }
+                        },
+                      ),
+                      Text('Время окончания (${timeformat.pattern})',style: TextStyle(color: Colors.grey, height: 1.2)),
+                      DateTimeField(
+                        format: timeformat,
+                        onShowPicker: (context, currentValue) async {
+                          final time = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.fromDateTime(
+                                currentValue ?? DateTime.now()),
+                          );
+                          event.endTime = time.toString();
+                          return DateTimeField.convert(time);
                         },
                       ),
                     ]),
