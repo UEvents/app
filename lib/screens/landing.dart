@@ -25,7 +25,6 @@ class Landing extends State<LandingPage>
               onPressed: () {
                 DatabaseService db = DatabaseService();
                   var stream = db.getEvents();
-
                   stream.listen((List<Data> data) {
                     setState(() {
                       EventList.eventsToShow = data;

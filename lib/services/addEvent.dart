@@ -170,8 +170,8 @@ class _AddEventState extends State<AddEvent> {
                           FormBuilderValidators.maxLength(120),
                         ],
                       ),
-                      Text('Basic date & time field (${format.pattern})',
-                          style: TextStyle(color: Colors.grey)),
+                      Text('Дата и время начала (${format.pattern})',
+                          style: TextStyle(color: Colors.grey, height: 2)),
                       DateTimeField(
                         format: format,
                         onShowPicker: (context, currentValue) async {
