@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -48,7 +50,6 @@ class _AddEventState extends State<AddEvent> {
 
       await DatabaseService().addOrUpdateEvent(event);
       Navigator.of(context).pop();
-      
     }
     else
     {
@@ -58,6 +59,7 @@ class _AddEventState extends State<AddEvent> {
 
   Widget build(BuildContext context) {
     user = Provider.of<User>(context);
+    
     return Container(
     child: Scaffold(
       appBar: AppBar(

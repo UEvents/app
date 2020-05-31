@@ -4,7 +4,7 @@ import 'package:uevents/data/data.dart';
 class DatabaseService{
   final CollectionReference _eventCollection = Firestore.instance.collection('events');
 
-  Future addOrUpdateEvent(Data events)  async{
+  Future addOrUpdateEvent(Data events) async {
     return await _eventCollection.document(events.uid).setData(events.toMap());
   }
 

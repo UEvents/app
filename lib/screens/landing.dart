@@ -3,36 +3,41 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uevents/data/data.dart';
 import 'package:uevents/domain/showEvent.dart';
+import 'package:uevents/domain/user.dart';
 import 'package:uevents/services/addEvent.dart';
 import 'package:uevents/services/auth.dart';
+import 'package:uevents/services/database.dart';
 import 'package:uevents/widgets/calendar.dart';
 import 'package:uevents/widgets/eventCard.dart';
 import 'package:uevents/widgets/eventExtended.dart';
 
 class Landing extends State<LandingPage>
 {
-  List<Data> _data = [
-    new Data("1", "Семинар по машинному обучению", _loremIpsum + _loremIpsum, "Organizer", "Address1", _loremIpsum, 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Yandex_Browser_logo.svg/1200px-Yandex_Browser_logo.svg.png'),
-    new Data("1", "Title2", _loremIpsum, "Organizer", "Address2", _loremIpsum, 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Yandex_Browser_logo.svg/1200px-Yandex_Browser_logo.svg.png'),
-    new Data("1", "Title3", _loremIpsum, "Organizer", "Address3", _loremIpsum, 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Yandex_Browser_logo.svg/1200px-Yandex_Browser_logo.svg.png'),
-  ];
-
-  static final String _loremIpsum = 'Lorem itfesgdfhgjhklikjhgfds amet, consectetur adipiscing elit. Donec tincidunt molestie ullamcorper. Pellentesque eleifend interdum lacus et rhoncus. ';
-
   @override
   Widget build(BuildContext context) { //на основе данных с базы (_data) создает виджеты-карточки
-    
-    var widgets = Expanded(
-      child: ListView.builder(
-        itemCount: _data.length,
-        itemBuilder: (context, index) { return EventCard.createCard(_data[index]);}),
-    );
-
     return Container(
       child: Scaffold(
       appBar: AppBar( 
           title: Text('U.Events', style: TextStyle(fontSize: 25)),
           backgroundColor: Colors.pinkAccent,
+          actions: <Widget>[
+          FlatButton.icon(
+              onPressed: () {
+                DatabaseService db = DatabaseService();
+                  var stream = db.getEvents();
+
+                  stream.listen((List<Data> data) {
+                    setState(() {
+                      EventList.eventsToShow = data;
+                    });
+                  });
+              },
+              icon: Icon(
+                Icons.sync,
+                color: Colors.white,
+              ),
+              label: SizedBox.shrink())
+        ],
       ), 
       drawer: Drawer( 
         child: ListView( 
@@ -81,7 +86,7 @@ class Landing extends State<LandingPage>
             backgroundColor: Colors.white,
             foregroundColor: Theme.of(context).primaryColor,
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (ctx) => AddEvent()));
+              Navigator.push<Data>(context, MaterialPageRoute(builder: (ctx) => AddEvent()));
             },    
         ),
       ) 

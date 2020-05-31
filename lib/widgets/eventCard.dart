@@ -78,7 +78,10 @@ class EventCard {
                             width: 110,
                             child: Padding(padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                               child: Image.network(eventData.imageSrc,
-                                fit: BoxFit.contain
+                                fit: BoxFit.contain,
+                                errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+                                  return Image.network("https://znaiwifi.com/wp-content/uploads/2018/01/hqdefault.jpg");
+                                },
                               ),
                             ),
                           ),

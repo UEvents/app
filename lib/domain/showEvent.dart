@@ -6,38 +6,41 @@ import 'package:uevents/services/database.dart';
 import 'package:uevents/widgets/eventCard.dart';
 
 class EventList extends StatefulWidget {
+  static var eventsToShow = List<Data>();
   @override
   _EventListState createState() => _EventListState();
 }
 
 class _EventListState extends State<EventList> {
+  bool _isFirst = true;
   User user;
   DatabaseService db = DatabaseService();
-  var eventsToShow = List<Data>();
-
-  void filter() {
-    loadData();
-  }
+  
 
   loadData() async {
     var stream = db.getEvents();
 
     stream.listen((List<Data> data) {
       setState(() {
-        eventsToShow = data;
+        EventList.eventsToShow = data;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    filter();
+    if (_isFirst)
+    {
+      loadData();
+      _isFirst = false;
+    }
+
     user = Provider.of<User>(context);
     var eventlists = Expanded(
         child: ListView.builder(
-            itemCount: eventsToShow.length,
+            itemCount: EventList.eventsToShow.length,
             itemBuilder: (context, i) {
-              return EventCard.createCard(eventsToShow[i]);
+              return EventCard.createCard(EventList.eventsToShow[i]);
             }));
 
     return eventlists;
