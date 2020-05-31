@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:uevents/common/savebutton.dart';
 import 'package:uevents/common/toast.dart';
@@ -9,6 +10,7 @@ import 'package:uevents/domain/user.dart';
 import 'package:uevents/services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:uevents/widgets/formElement.dart';
 
 class AddEvent extends StatefulWidget {
   AddEvent({Key key}) : super(key: key);
@@ -22,6 +24,7 @@ class _AddEventState extends State<AddEvent> {
   User user;
   final format = DateFormat("yyyy-MM-dd HH:mm");
   final timeformat = DateFormat("HH:mm");
+  TimeOfDay _startValue;
 
   Data event = Data(
     'id',
@@ -80,100 +83,40 @@ class _AddEventState extends State<AddEvent> {
                     initialValue: {},
                     readOnly: false,
                     child: Column(children: <Widget>[
-                      FormBuilderTextField(
-                        attribute: "название",
-                        decoration: InputDecoration(
-                          labelText: "Название*",
-                        ),
-                        onChanged: (dynamic val) {
-                          setState(() {
-                            event.title = val;
-                          });
-                        },
-                        validators: [
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.maxLength(100),
-                        ],
+                      FormElement.createTextElement("Название", (val) => event.title = val, [FormBuilderValidators.required()]),
+                      FormElement.createTextElement("Краткое описание", (val) => event.shortDescription = val,
+                      [
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.minLength(30),
+                        FormBuilderValidators.maxLength(120)
+                      ]),
+                      FormElement.createTextElement("Полное описание", (val) => event.description = val, 
+                      [
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.maxLength(1500)
+                      ]), 
+                      FormElement.createTextElement("Организатор", (val) => event.organizer = val, 
+                      [
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.maxLength(100),
+                      ]),
+                      FormElement.createTextElement("Адрес", (val) => event.address = val, 
+                      [
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.maxLength(100)
+                      ]),
+                      FormElement.createTextElement("Ссылка на изображение", (val) => event.imageSrc = val, 
+                      [
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.minLength(30),
+                        FormBuilderValidators.maxLength(120),
+                      ]),
+                      Container(
+                        margin: EdgeInsets.only(top: 6),
+                        decoration: BoxDecoration(border: Border.all()),
+                        child: Text('Дата и время начала (${format.pattern})',
+                            style: TextStyle(color: Colors.grey, height: 1.2)),
                       ),
-                      FormBuilderTextField(
-                        attribute: "краткое описание",
-                        decoration: InputDecoration(
-                          labelText: "Краткое описание*",
-                        ),
-                        onChanged: (dynamic val) {
-                          setState(() {
-                            event.shortDescription = val;
-                          });
-                        },
-                        validators: [
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.minLength(30),
-                          FormBuilderValidators.maxLength(120),
-                        ],
-                      ),
-                      FormBuilderTextField(
-                        attribute: "полное описание",
-                        decoration: InputDecoration(
-                          labelText: "Полное описание*",
-                        ),
-                        onChanged: (dynamic val) {
-                          setState(() {
-                            event.description = val;
-                          });
-                        },
-                        validators: [
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.maxLength(1500),
-                        ],
-                      ),
-                      FormBuilderTextField(
-                        attribute: "организатор",
-                        decoration: InputDecoration(
-                          labelText: "Организатор*",
-                        ),
-                        onChanged: (dynamic val) {
-                          setState(() {
-                            event.organizer = val;
-                          });
-                        },
-                        validators: [
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.maxLength(100),
-                        ],
-                      ),
-                      FormBuilderTextField(
-                        attribute: "адрес",
-                        decoration: InputDecoration(
-                          labelText: "Адрес*",
-                        ),
-                        onChanged: (dynamic val) {
-                          setState(() {
-                            event.address = val;
-                          });
-                        },
-                        validators: [
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.maxLength(100),
-                        ],
-                      ),
-                      FormBuilderTextField(
-                        attribute: "ссылка на картинку",
-                        decoration: InputDecoration(
-                          labelText: "Ссылка на картинку*",
-                        ),
-                        onChanged: (dynamic val) {
-                          setState(() {
-                            event.imageSrc = val;
-                          });
-                        },
-                        validators: [
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.minLength(30),
-                          FormBuilderValidators.maxLength(120),
-                        ],
-                      ),
-                      Text('Дата и время начала (${format.pattern})',
-                          style: TextStyle(color: Colors.grey, height: 1.2)),
                       DateTimeField(
                         format: format,
                         onShowPicker: (context, currentValue) async {
@@ -189,24 +132,35 @@ class _AddEventState extends State<AddEvent> {
                                   currentValue ?? DateTime.now()),
                             );
                             if (date != null && time != null) {
-                              event.date =
-                                  DateTimeField.combine(date, time).toString();
+                              _startValue = time;
+                              event.date = DateTimeField.combine(date, time).toString();
+                              
                               return DateTimeField.combine(date, time);
                             }
-                          } else {
+                          }
+                          else
+                          {
                             return currentValue;
                           }
                         },
                       ),
-                      Text('Время окончания (${timeformat.pattern})',style: TextStyle(color: Colors.grey, height: 1.2)),
+                      Text('Время окончания (${timeformat.pattern})', style: TextStyle(color: Colors.grey, height: 1.2)),
                       DateTimeField(
                         format: timeformat,
                         onShowPicker: (context, currentValue) async {
-                          final time = await showTimePicker(
+                          var time = await showTimePicker(
                             context: context,
                             initialTime: TimeOfDay.fromDateTime(
                                 currentValue ?? DateTime.now()),
                           );
+
+                          if (time.period == _startValue.period)
+                          {
+                            if (time.hour < _startValue.hour)
+                              time = _startValue;    
+                          }
+                                     
+                               
                           event.endTime = time.toString();
                           return DateTimeField.convert(time);
                         },
