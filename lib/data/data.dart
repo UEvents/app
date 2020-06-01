@@ -11,6 +11,7 @@ class Data {
   Timestamp date;
   Timestamp startTime;
   Timestamp endTime;
+  
   Data(this.uid,this.title, this.description, this.organizer, this.address,
       this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime);
 
