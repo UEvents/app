@@ -19,7 +19,6 @@ class EventCard {
     double w = 386;
     return Column(children: <Widget>[
       Container(
-          //main container
           margin: EdgeInsets.symmetric(vertical: 20),
           width: w,
           height: 278,
@@ -124,6 +123,7 @@ class EventCard {
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.only(left: 14),
+<<<<<<< HEAD
                                     child: Text(eventData.startTime
                                             .split("(")[1]
                                             .split(')')[0] +
@@ -131,6 +131,24 @@ class EventCard {
                                         eventData.endTime
                                             .split("(")[1]
                                             .split(')')[0]))
+=======
+                                    child: Text(
+                                      DateTime.fromMicrosecondsSinceEpoch(eventData
+                                      .startTime
+                                      .millisecondsSinceEpoch)
+                                      .hour
+                                      .toString()
+                                      +
+                                      ":"
+                                      +
+                                      DateTime.fromMicrosecondsSinceEpoch(eventData
+                                      .startTime
+                                      .millisecondsSinceEpoch)
+                                      .minute
+                                      .toString()
+                                    )
+                                )
+>>>>>>> 2cc04d6dc2ddc13bcb234b96dfe0f5e41127285f
                               ],
                             ),
                             Container(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -24,19 +25,24 @@ class _AddEventState extends State<AddEvent> {
   User user;
   final format = DateFormat("yyyy-MM-dd HH:mm");
   final timeformat = DateFormat("HH:mm");
-  TimeOfDay _startValue;
 
   Data event = Data(
     'id',
-    'a',
-    'a',
-    'a',
-    'a',
-    'a',
+    'empty',
+    'empty',
+    'empty',
+    'empty',
+    'empty',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Yandex_Browser_logo.svg/1200px-Yandex_Browser_logo.svg.png',
+<<<<<<< HEAD
     DateTime.now().toString(),
     DateTime.now().toString(),
     DateTime.now().toString(),
+=======
+    Timestamp.fromDate(DateTime.now()),
+    Timestamp.fromDate(DateTime.now()),
+    Timestamp.fromDate(DateTime.now()),
+>>>>>>> 2cc04d6dc2ddc13bcb234b96dfe0f5e41127285f
   );
 
   @override
@@ -115,6 +121,7 @@ class _AddEventState extends State<AddEvent> {
                         FormBuilderValidators.minLength(30),
                         FormBuilderValidators.maxLength(120),
                       ]),
+<<<<<<< HEAD
                       Container(
                         margin: EdgeInsets.only(top: 6),
                         decoration: BoxDecoration(border: Border.all()),
@@ -166,6 +173,11 @@ class _AddEventState extends State<AddEvent> {
                           return DateTimeField.convert(time);
                         },
                       ),
+=======
+                      FormElement.createDateElement("Дата проведения", (val) => event.date = Timestamp.fromDate(val)),
+                      FormElement.createHourElement("Время начала", (val) => event.startTime = Timestamp.fromDate(DateTime(val.hour, val.minute))),
+                      FormElement.createHourElement("Время окончания", (val) => event.startTime = Timestamp.fromDate(DateTime(val.hour, val.minute))),
+>>>>>>> 2cc04d6dc2ddc13bcb234b96dfe0f5e41127285f
                     ]),
                   ),
                 ],
