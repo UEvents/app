@@ -9,6 +9,7 @@ class AuthService {
       AuthResult result = await _fAuth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
+      user = result.user;
       return User.fromFirebase(user);
     } catch (e) {
       print(e);

@@ -57,12 +57,16 @@ class FormElement
         onShowPicker: (context, currentValue) async {
           var time = await showTimePicker(
             context: context,
-            initialTime: TimeOfDay.fromDateTime(currentValue ?? defaultTime),
+            initialTime: TimeOfDay.fromDateTime(currentValue == null ? defaultTime : currentValue),
           );
-
-          stateSetter(time);
-
-          return DateTimeField.convert(time);
+          
+          if (time == null)
+            time = TimeOfDay.fromDateTime(defaultTime);
+          
+          var result = defaultTime.add(Duration(hours: time.hour, minutes: time.minute));
+          stateSetter(result);
+          
+          return result;
         },  
       )
     );

@@ -1,21 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:uevents/data/data.dart';
+import 'package:uevents/widgets/eventExtended.dart';
 /*
   Нужно будет сделать ограничение на количество символов в кратком содержании, ибо иначе всё отображение
   к хуям ломается (ну, в лучшем случае, кнопка съезжает на пару пикселей)
 */
 
 class EventCard {
-  static List<Widget> createCards(List<Data> eventData) {
+  static List<Widget> createCards(BuildContext context, List<Data> eventData) {
     var result = new List<Widget>();
     for (var i = 0; i < eventData.length; i++) {
-      result.add(createCard(eventData[i]));
+      result.add(createCard(context, eventData[i]));
     }
     return result;
   }
 
-  static Widget createCard(Data eventData) {
+  static Widget createCard(BuildContext context, Data eventData) {
     double w = 386;
     return Column(children: <Widget>[
       Container(
@@ -126,7 +129,7 @@ class EventCard {
                                     child: Text(
                                       DateTime.fromMicrosecondsSinceEpoch(eventData
                                       .startTime
-                                      .millisecondsSinceEpoch)
+                                      .microsecondsSinceEpoch)
                                       .hour
                                       .toString()
                                       +
@@ -134,7 +137,7 @@ class EventCard {
                                       +
                                       DateTime.fromMicrosecondsSinceEpoch(eventData
                                       .startTime
-                                      .millisecondsSinceEpoch)
+                                      .microsecondsSinceEpoch)
                                       .minute
                                       .toString()
                                       +
@@ -142,7 +145,7 @@ class EventCard {
                                       +
                                       DateTime.fromMicrosecondsSinceEpoch(eventData
                                       .endTime
-                                      .millisecondsSinceEpoch)
+                                      .microsecondsSinceEpoch)
                                       .hour
                                       .toString()
                                       +
@@ -150,7 +153,7 @@ class EventCard {
                                       +
                                       DateTime.fromMicrosecondsSinceEpoch(eventData
                                       .endTime
-                                      .millisecondsSinceEpoch)
+                                      .microsecondsSinceEpoch)
                                       .minute
                                       .toString()
                                     )
@@ -163,7 +166,10 @@ class EventCard {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(55))),
                               child: FlatButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) =>
+                                    EventExtended.getExtendedEvent(context, eventData)));
+                                },
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5.0),
                                     side: BorderSide(color: Colors.red)),

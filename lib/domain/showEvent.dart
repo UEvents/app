@@ -40,7 +40,7 @@ class _EventListState extends State<EventList> {
         child: ListView.builder(
             itemCount: EventList.eventsToShow.length,
             itemBuilder: (context, i) {
-              return EventCard.createCard(EventList.eventsToShow[i]);
+              return EventCard.createCard(context, EventList.eventsToShow[i]);
             }));
 
     return eventlists;

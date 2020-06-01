@@ -37,6 +37,7 @@ class _AddEventState extends State<AddEvent> {
     Timestamp.fromDate(DateTime.now()),
     Timestamp.fromDate(DateTime.now()),
     Timestamp.fromDate(DateTime.now()),
+    new List<User>()
   );
 
   @override
@@ -47,13 +48,12 @@ class _AddEventState extends State<AddEvent> {
   void _saveEvent() async {
     if (_fbKey.currentState.saveAndValidate()) {
       if (event == null) {
-        buildToast('Пожалуйста, проверьте ивент');
+        buildToast('Проверьте корректность введенных Вами данных');
         return;
       }
-      DateTime now = DateTime.now();
 
       if (event.uid == 'id') {
-        event.uid = user.id + now.toString();
+        event.uid = DateTime.now().millisecondsSinceEpoch.toString();
       }
       await DatabaseService().addOrUpdateEvent(event);
       Navigator.of(context).pop();
@@ -67,8 +67,7 @@ class _AddEventState extends State<AddEvent> {
     return Container(
         child: Scaffold(
             appBar: AppBar(
-              title:
-                  Text('Создание мероприятия', style: TextStyle(fontSize: 20)),
+              title: Text('Создание мероприятия', style: TextStyle(fontSize: 20)),
               backgroundColor: Colors.pinkAccent,
               actions: <Widget>[SaveButton(onPressed: _saveEvent)],
             ),
@@ -88,7 +87,7 @@ class _AddEventState extends State<AddEvent> {
                       FormElement.createTextElement("Краткое описание", (val) => event.shortDescription = val,
                       [
                         FormBuilderValidators.required(),
-                        FormBuilderValidators.minLength(30),
+                        //FormBuilderValidators.minLength(30),
                         FormBuilderValidators.maxLength(120)
                       ]),
                       FormElement.createTextElement("Полное описание", (val) => event.description = val, 
@@ -113,8 +112,10 @@ class _AddEventState extends State<AddEvent> {
                         FormBuilderValidators.maxLength(120),
                       ]),
                       FormElement.createDateElement("Дата проведения", (val) => event.date = Timestamp.fromDate(val)),
-                      FormElement.createHourElement("Время начала", (val) => event.startTime = Timestamp.fromDate(DateTime(val.hour, val.minute))),
-                      FormElement.createHourElement("Время окончания", (val) => event.endTime = Timestamp.fromDate(DateTime(val.hour, val.minute))),
+                      FormElement.createHourElement("Время начала", (val) =>
+                        event.startTime = Timestamp.fromMillisecondsSinceEpoch(val.millisecondsSinceEpoch)),
+                      FormElement.createHourElement("Время окончания", (val) =>
+                        event.endTime = Timestamp.fromMillisecondsSinceEpoch(val.millisecondsSinceEpoch)),
                     ]),
                   ),
                 ],
