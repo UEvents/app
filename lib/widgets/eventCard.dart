@@ -137,6 +137,22 @@ class EventCard {
                                       .millisecondsSinceEpoch)
                                       .minute
                                       .toString()
+                                      +
+                                      " - "
+                                      +
+                                      DateTime.fromMicrosecondsSinceEpoch(eventData
+                                      .endTime
+                                      .millisecondsSinceEpoch)
+                                      .hour
+                                      .toString()
+                                      +
+                                      ":"
+                                      +
+                                      DateTime.fromMicrosecondsSinceEpoch(eventData
+                                      .endTime
+                                      .millisecondsSinceEpoch)
+                                      .minute
+                                      .toString()
                                     )
                                 )
                               ],

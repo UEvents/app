@@ -114,7 +114,7 @@ class _AddEventState extends State<AddEvent> {
                       ]),
                       FormElement.createDateElement("Дата проведения", (val) => event.date = Timestamp.fromDate(val)),
                       FormElement.createHourElement("Время начала", (val) => event.startTime = Timestamp.fromDate(DateTime(val.hour, val.minute))),
-                      FormElement.createHourElement("Время окончания", (val) => event.startTime = Timestamp.fromDate(DateTime(val.hour, val.minute))),
+                      FormElement.createHourElement("Время окончания", (val) => event.endTime = Timestamp.fromDate(DateTime(val.hour, val.minute))),
                     ]),
                   ),
                 ],
