@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:uevents/services/database.dart';
 import 'package:uevents/widgets/datePicker/date_picker_timeline.dart';
 
 class Calendar 
 {
+  @override
   static Widget createCalendarBar(BuildContext context) 
   {
     return Container(

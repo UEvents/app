@@ -36,6 +36,7 @@ class _AddEventState extends State<AddEvent> {
     'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Yandex_Browser_logo.svg/1200px-Yandex_Browser_logo.svg.png',
     DateTime.now().toString(),
     DateTime.now().toString(),
+    DateTime.now().toString(),
   );
 
   @override
@@ -83,30 +84,33 @@ class _AddEventState extends State<AddEvent> {
                     initialValue: {},
                     readOnly: false,
                     child: Column(children: <Widget>[
-                      FormElement.createTextElement("Название", (val) => event.title = val, [FormBuilderValidators.required()]),
-                      FormElement.createTextElement("Краткое описание", (val) => event.shortDescription = val,
-                      [
+                      FormElement.createTextElement(
+                          "Название",
+                          (val) => event.title = val,
+                          [FormBuilderValidators.required()]),
+                      FormElement.createTextElement("Краткое описание",
+                          (val) => event.shortDescription = val, [
                         FormBuilderValidators.required(),
                         FormBuilderValidators.minLength(30),
                         FormBuilderValidators.maxLength(120)
                       ]),
-                      FormElement.createTextElement("Полное описание", (val) => event.description = val, 
-                      [
+                      FormElement.createTextElement(
+                          "Полное описание", (val) => event.description = val, [
                         FormBuilderValidators.required(),
                         FormBuilderValidators.maxLength(1500)
-                      ]), 
-                      FormElement.createTextElement("Организатор", (val) => event.organizer = val, 
-                      [
+                      ]),
+                      FormElement.createTextElement(
+                          "Организатор", (val) => event.organizer = val, [
                         FormBuilderValidators.required(),
                         FormBuilderValidators.maxLength(100),
                       ]),
-                      FormElement.createTextElement("Адрес", (val) => event.address = val, 
-                      [
+                      FormElement.createTextElement(
+                          "Адрес", (val) => event.address = val, [
                         FormBuilderValidators.required(),
                         FormBuilderValidators.maxLength(100)
                       ]),
-                      FormElement.createTextElement("Ссылка на изображение", (val) => event.imageSrc = val, 
-                      [
+                      FormElement.createTextElement("Ссылка на изображение",
+                          (val) => event.imageSrc = val, [
                         FormBuilderValidators.required(),
                         FormBuilderValidators.minLength(30),
                         FormBuilderValidators.maxLength(120),
@@ -133,18 +137,17 @@ class _AddEventState extends State<AddEvent> {
                             );
                             if (date != null && time != null) {
                               _startValue = time;
-                              event.date = DateTimeField.combine(date, time).toString();
-                              
+                              event.date = date.toString();
+                              event.startTime = time.toString();
                               return DateTimeField.combine(date, time);
                             }
-                          }
-                          else
-                          {
+                          } else {
                             return currentValue;
                           }
                         },
                       ),
-                      Text('Время окончания (${timeformat.pattern})', style: TextStyle(color: Colors.grey, height: 1.2)),
+                      Text('Время окончания (${timeformat.pattern})',
+                          style: TextStyle(color: Colors.grey, height: 1.2)),
                       DateTimeField(
                         format: timeformat,
                         onShowPicker: (context, currentValue) async {
@@ -154,13 +157,11 @@ class _AddEventState extends State<AddEvent> {
                                 currentValue ?? DateTime.now()),
                           );
 
-                          if (time.period == _startValue.period)
-                          {
+                          if (time.period == _startValue.period) {
                             if (time.hour < _startValue.hour)
-                              time = _startValue;    
+                              time = _startValue;
                           }
-                                     
-                               
+
                           event.endTime = time.toString();
                           return DateTimeField.convert(time);
                         },

@@ -124,13 +124,9 @@ class EventCard {
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.only(left: 14),
-                                    child: Text(eventData.date
-                                            .split(" ")[1]
-                                            .split(":")[0] +
-                                        ':' +
-                                        eventData.date
-                                            .split(" ")[1]
-                                            .split(":")[1] +
+                                    child: Text(eventData.startTime
+                                            .split("(")[1]
+                                            .split(')')[0] +
                                         " - " +
                                         eventData.endTime
                                             .split("(")[1]

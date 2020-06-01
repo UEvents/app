@@ -7,13 +7,14 @@ class Data {
   String address;
   String imageSrc;
   String date;
+  String startTime;
   String endTime;
   Data(this.uid,this.title, this.description, this.organizer, this.address,
-      this.shortDescription, this.imageSrc, this.date, this.endTime);
+      this.shortDescription, this.imageSrc, this.date, this.endTime, this.startTime);
 
   Data copy() {
     return Data(this.uid, this.title, this.description, this.organizer,
-        this.address, this.shortDescription, this.imageSrc, this.date, this.endTime);
+        this.address, this.shortDescription, this.imageSrc, this.date, this.endTime, this.startTime);
   }
 
   Data.fromJson(String uid, Map<String, dynamic> data){
@@ -25,6 +26,7 @@ class Data {
     address = data['address'];
     imageSrc = data['imageSrc'];
     date = data['date'];
+    startTime = data['startTime'];
     endTime = data['endTime'];
   }
 
@@ -39,6 +41,7 @@ class Data {
       "imageSrc": imageSrc,
       "date": date,
       "endTime": endTime,
+      "startTime": startTime,
     };
   }
 }

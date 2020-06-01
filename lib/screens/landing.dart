@@ -1,16 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uevents/data/data.dart';
 import 'package:uevents/domain/showEvent.dart';
-import 'package:uevents/domain/user.dart';
 import 'package:uevents/services/addEvent.dart';
 import 'package:uevents/services/auth.dart';
 import 'package:uevents/services/database.dart';
 import 'package:uevents/widgets/calendar.dart';
-import 'package:uevents/widgets/eventCard.dart';
-import 'package:uevents/widgets/eventExtended.dart';
-
+import 'package:uevents/data/data.dart';
 class Landing extends State<LandingPage>
 {
   @override
