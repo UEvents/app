@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Data {
   String uid;
   String title;
@@ -6,14 +8,15 @@ class Data {
   String organizer;
   String address;
   String imageSrc;
-  String date;
-  String endTime;
+  Timestamp date;
+  Timestamp startTime;
+  Timestamp endTime;
   Data(this.uid,this.title, this.description, this.organizer, this.address,
-      this.shortDescription, this.imageSrc, this.date, this.endTime);
+      this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime);
 
   Data copy() {
     return Data(this.uid, this.title, this.description, this.organizer,
-        this.address, this.shortDescription, this.imageSrc, this.date, this.endTime);
+        this.address, this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime);
   }
 
   Data.fromJson(String uid, Map<String, dynamic> data){
@@ -25,6 +28,7 @@ class Data {
     address = data['address'];
     imageSrc = data['imageSrc'];
     date = data['date'];
+    startTime = data['startTime'];
     endTime = data['endTime'];
   }
 
@@ -38,6 +42,7 @@ class Data {
       "address": address,
       "imageSrc": imageSrc,
       "date": date,
+      "startTime": startTime,
       "endTime": endTime,
     };
   }

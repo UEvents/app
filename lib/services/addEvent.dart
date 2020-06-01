@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -24,18 +25,18 @@ class _AddEventState extends State<AddEvent> {
   User user;
   final format = DateFormat("yyyy-MM-dd HH:mm");
   final timeformat = DateFormat("HH:mm");
-  TimeOfDay _startValue;
 
   Data event = Data(
     'id',
-    'a',
-    'a',
-    'a',
-    'a',
-    'a',
+    'empty',
+    'empty',
+    'empty',
+    'empty',
+    'empty',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Yandex_Browser_logo.svg/1200px-Yandex_Browser_logo.svg.png',
-    DateTime.now().toString(),
-    DateTime.now().toString(),
+    Timestamp.fromDate(DateTime.now()),
+    Timestamp.fromDate(DateTime.now()),
+    Timestamp.fromDate(DateTime.now()),
   );
 
   @override
@@ -111,60 +112,9 @@ class _AddEventState extends State<AddEvent> {
                         FormBuilderValidators.minLength(30),
                         FormBuilderValidators.maxLength(120),
                       ]),
-                      Container(
-                        margin: EdgeInsets.only(top: 6),
-                        decoration: BoxDecoration(border: Border.all()),
-                        child: Text('Дата и время начала (${format.pattern})',
-                            style: TextStyle(color: Colors.grey, height: 1.2)),
-                      ),
-                      DateTimeField(
-                        format: format,
-                        onShowPicker: (context, currentValue) async {
-                          final date = await showDatePicker(
-                              context: context,
-                              firstDate: DateTime(1900),
-                              initialDate: currentValue ?? DateTime.now(),
-                              lastDate: DateTime(2100));
-                          if (date != null) {
-                            final time = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.fromDateTime(
-                                  currentValue ?? DateTime.now()),
-                            );
-                            if (date != null && time != null) {
-                              _startValue = time;
-                              event.date = DateTimeField.combine(date, time).toString();
-                              
-                              return DateTimeField.combine(date, time);
-                            }
-                          }
-                          else
-                          {
-                            return currentValue;
-                          }
-                        },
-                      ),
-                      Text('Время окончания (${timeformat.pattern})', style: TextStyle(color: Colors.grey, height: 1.2)),
-                      DateTimeField(
-                        format: timeformat,
-                        onShowPicker: (context, currentValue) async {
-                          var time = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.fromDateTime(
-                                currentValue ?? DateTime.now()),
-                          );
-
-                          if (time.period == _startValue.period)
-                          {
-                            if (time.hour < _startValue.hour)
-                              time = _startValue;    
-                          }
-                                     
-                               
-                          event.endTime = time.toString();
-                          return DateTimeField.convert(time);
-                        },
-                      ),
+                      FormElement.createDateElement("Дата проведения", (val) => event.date = Timestamp.fromDate(val)),
+                      FormElement.createHourElement("Время начала", (val) => event.startTime = Timestamp.fromDate(DateTime(val.hour, val.minute))),
+                      FormElement.createHourElement("Время окончания", (val) => event.startTime = Timestamp.fromDate(DateTime(val.hour, val.minute))),
                     ]),
                   ),
                 ],
