@@ -123,15 +123,6 @@ class EventCard {
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.only(left: 14),
-<<<<<<< HEAD
-                                    child: Text(eventData.startTime
-                                            .split("(")[1]
-                                            .split(')')[0] +
-                                        " - " +
-                                        eventData.endTime
-                                            .split("(")[1]
-                                            .split(')')[0]))
-=======
                                     child: Text(
                                       DateTime.fromMicrosecondsSinceEpoch(eventData
                                       .startTime
@@ -148,7 +139,6 @@ class EventCard {
                                       .toString()
                                     )
                                 )
->>>>>>> 2cc04d6dc2ddc13bcb234b96dfe0f5e41127285f
                               ],
                             ),
                             Container(
