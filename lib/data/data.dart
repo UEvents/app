@@ -23,7 +23,7 @@ class Data {
   }
 
   Data.fromJson(String uid, Map<String, dynamic> data){
-    uid = uid;
+    this.uid = data['uid'];
     title = data['title'];
     shortDescription = data['shortDescription'];
     description = data['description'];

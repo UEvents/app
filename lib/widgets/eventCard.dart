@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
 import 'package:uevents/data/data.dart';
+import 'package:uevents/services/auth.dart';
 import 'package:uevents/widgets/eventExtended.dart';
 /*
   Нужно будет сделать ограничение на количество символов в кратком содержании, ибо иначе всё отображение
@@ -20,6 +22,7 @@ class EventCard {
 
   static Widget createCard(BuildContext context, Data eventData) {
     double w = 386;
+
     return Column(children: <Widget>[
       Container(
           margin: EdgeInsets.symmetric(vertical: 20),
@@ -127,36 +130,8 @@ class EventCard {
                                 Padding(
                                     padding: const EdgeInsets.only(left: 14),
                                     child: Text(
-                                      DateTime.fromMicrosecondsSinceEpoch(eventData
-                                      .startTime
-                                      .microsecondsSinceEpoch)
-                                      .hour
-                                      .toString()
-                                      +
-                                      ":"
-                                      +
-                                      DateTime.fromMicrosecondsSinceEpoch(eventData
-                                      .startTime
-                                      .microsecondsSinceEpoch)
-                                      .minute
-                                      .toString()
-                                      +
-                                      " - "
-                                      +
-                                      DateTime.fromMicrosecondsSinceEpoch(eventData
-                                      .endTime
-                                      .microsecondsSinceEpoch)
-                                      .hour
-                                      .toString()
-                                      +
-                                      ":"
-                                      +
-                                      DateTime.fromMicrosecondsSinceEpoch(eventData
-                                      .endTime
-                                      .microsecondsSinceEpoch)
-                                      .minute
-                                      .toString()
-                                    )
+                                      DateFormat("HH:mm").format(DateTime.fromMicrosecondsSinceEpoch(eventData.startTime.microsecondsSinceEpoch))
+                                        + " - " +  DateFormat("HH:mm").format(DateTime.fromMicrosecondsSinceEpoch(eventData.endTime.microsecondsSinceEpoch)))
                                 )
                               ],
                             ),

@@ -61,6 +61,7 @@ class _AddEventState extends State<AddEvent> {
       buildToast('Упс! Что-то пошло не так');
     }
   }
+  //TODO: вынести форму в отдельный класс
 
   Widget build(BuildContext context) {
     user = Provider.of<User>(context);

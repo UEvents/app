@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:uevents/data/data.dart';
-import 'package:uevents/domain/user.dart';
 import 'package:uevents/services/auth.dart';
+import 'package:uevents/services/database.dart';
 
 class EventExtended
 {
+  static String _userId;
+
   static Widget getExtendedEvent(BuildContext context, Data data)
   {
     return Scaffold(
@@ -43,7 +45,16 @@ class EventExtended
               alignment: Alignment.centerRight,
               margin: EdgeInsets.fromLTRB(0, 10, 21, 0),
               child: FlatButton( 
-                onPressed: () { data.participants.add(User("0", "a")); },
+                onPressed: () { AuthService().currentUser.listen((user) { 
+                  _userId = user.id; 
+                  if (data.participants != null && !data.participants.contains(_userId))
+                    data.participants.add(_userId);
+                  else 
+                    data.participants = [ _userId ];
+
+                  print(data.uid);
+                  DatabaseService().addOrUpdateEvent(data);
+                });}, //id
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                   side: BorderSide(color: Colors.red)
