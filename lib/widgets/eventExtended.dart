@@ -3,13 +3,36 @@ import 'package:uevents/data/data.dart';
 import 'package:uevents/services/auth.dart';
 import 'package:uevents/services/database.dart';
 
-class EventExtended
-{
-  static String _userId;
+  class ExtendedEvent extends StatefulWidget {
+    ExtendedEvent({Key key}) : super(key: key);
+    Data _data;
 
-  static Widget getExtendedEvent(BuildContext context, Data data)
-  {
-    return Scaffold(
+    ExtendedEvent.construct(data) { _data = data; }
+
+    @override
+    _ExtendedEventState createState() => _ExtendedEventState();
+  }
+  
+  class _ExtendedEventState extends State<ExtendedEvent> {
+    String _userId;
+    bool _takesPart = false;
+
+    @override
+    Widget build(BuildContext context) {
+      Data data = widget._data;
+      AuthService().currentUser.listen((user) { 
+        _userId = user.id; 
+        
+          //if (data.participants != null)
+          //{
+          //  if (!data.participants.contains(_userId))
+          //    data.participants.add(_userId);
+          //}       
+          //else 
+          //data.participants = [ _userId ];
+      });
+
+      return Scaffold(
       appBar: AppBar( 
         leading: FlatButton(
           child:  Icon(Icons.arrow_back, color: Colors.white),
@@ -21,59 +44,69 @@ class EventExtended
       ),
       body: ListView(children: [
         Container(
-        child: Column( 
-          children: <Widget>[
-            Container( 
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-              child: Text(data.title, style: TextStyle(decoration: null, color: Colors.black, fontSize: 30)),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-              child: Flex(
-                direction: Axis.horizontal,
-                children: [
-                  Flexible( 
-                    child: Text(data.description, style: TextStyle(fontSize: 20)),
-                  )
-                ]
+          child: Column( 
+            children: <Widget>[
+              Container( 
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
               ),
-            ),
-            Container(
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: Text(data.title, style: TextStyle(decoration: null, color: Colors.black, fontSize: 30)),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                child: Flex(
+                  direction: Axis.horizontal,
+                  children: [
+                    Flexible( 
+                      child: Text(data.description, style: TextStyle(fontSize: 20)),
+                    )
+                  ]
+                ),
+              ),
+              Container(
               alignment: Alignment.centerRight,
               margin: EdgeInsets.fromLTRB(0, 10, 21, 0),
               child: FlatButton( 
-                onPressed: () { AuthService().currentUser.listen((user) { 
-                  _userId = user.id; 
-                  if (data.participants != null && !data.participants.contains(_userId))
-                    data.participants.add(_userId);
-                  else 
-                    data.participants = [ _userId ];
-
-                  print(data.uid);
-                  DatabaseService().addOrUpdateEvent(data);
-                });}, //id
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                  side: BorderSide(color: Colors.red)
-                ),
-                color: Colors.pinkAccent,
-                textColor: Colors.white,
-                child: Container(
-                  width: 160,
-                  height: 30,
-                  alignment: Alignment.center,
-                  child: Text('ЗАПИСАТЬСЯ', style: TextStyle(color: Colors.white)),
-                ),
+              onPressed: () {
+                if (data != null) 
+                {
+                  if (data.participants.contains(_userId))
+                  {
+                    data.participants.remove(_userId);
+                  }
+                  else
+                  {
+                    data.participants.add(_userId);    
+                  }                                         
+                }
+                DatabaseService().addOrUpdateEvent(data);
+                
+                setState(() {
+                  _takesPart = !_takesPart;
+                });
+              }, //id
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+                side: BorderSide(color: Colors.red)
+              ),
+              color: (_takesPart ? Colors.pink : Colors.pinkAccent),
+              textColor: Colors.white,
+              child: Container(
+                width: 160,
+                height: 30,
+                alignment: Alignment.center,
+                child: Text(
+                  _takesPart ? 'ОТМЕНИТЬ УЧАСТИЕ' : 'ЗАПИСАТЬСЯ',
+                  style: TextStyle(color: Colors.white)
+                  ),
               ),
             ),
-            
-          ],
-        ),
+          ),
+        ],
       ),
-      ]),
+    ),
+    ]),
     );
   }
 }

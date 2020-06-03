@@ -22,7 +22,7 @@ class EventCard {
 
   static Widget createCard(BuildContext context, Data eventData) {
     double w = 386;
-
+    
     return Column(children: <Widget>[
       Container(
           margin: EdgeInsets.symmetric(vertical: 20),
@@ -143,7 +143,7 @@ class EventCard {
                               child: FlatButton(
                                 onPressed: () {
                                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) =>
-                                    EventExtended.getExtendedEvent(context, eventData)));
+                                    ExtendedEvent.construct(eventData)));
                                 },
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5.0),
