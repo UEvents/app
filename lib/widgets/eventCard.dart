@@ -22,7 +22,7 @@ class EventCard {
 
   static Widget createCard(BuildContext context, Data eventData) {
     double w = 386;
-    
+
     return Column(children: <Widget>[
       Container(
           margin: EdgeInsets.symmetric(vertical: 20),
@@ -52,7 +52,8 @@ class EventCard {
                         Padding(
                             padding: EdgeInsets.only(left: 8),
                             child: Text(
-                              eventData.address,
+                              eventData.address + ', участники: ' +
+                                (eventData.participants != null ? eventData.participants.length : 0).toString(),
                               style: TextStyle(
                                   fontSize: 14,
                                   fontFamily: 'Roboto',

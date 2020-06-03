@@ -14,23 +14,21 @@ import 'package:uevents/services/database.dart';
   }
   
   class _ExtendedEventState extends State<ExtendedEvent> {
+    static bool _init = false;
     String _userId;
     bool _takesPart = false;
+    Data data;
+
+    @override
+    void initState() {
+      super.initState();
+      AuthService().currentUser.listen((user) { _userId = user.id; setState(() {}); });
+    }
 
     @override
     Widget build(BuildContext context) {
-      Data data = widget._data;
-      AuthService().currentUser.listen((user) { 
-        _userId = user.id; 
-        
-          //if (data.participants != null)
-          //{
-          //  if (!data.participants.contains(_userId))
-          //    data.participants.add(_userId);
-          //}       
-          //else 
-          //data.participants = [ _userId ];
-      });
+      data = widget._data;
+      _takesPart = data.participants != null ? data.participants.contains(_userId) : false;
 
       return Scaffold(
       appBar: AppBar( 
@@ -77,14 +75,12 @@ import 'package:uevents/services/database.dart';
                   }
                   else
                   {
-                    data.participants.add(_userId);    
+                    data.participants.add(_userId);   
                   }                                         
                 }
                 DatabaseService().addOrUpdateEvent(data);
-                
-                setState(() {
-                  _takesPart = !_takesPart;
-                });
+
+                setState(() { });
               }, //id
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0),
