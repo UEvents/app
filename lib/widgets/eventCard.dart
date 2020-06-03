@@ -112,7 +112,7 @@ class EventCard {
                           Flexible(
                             child: Container(
                                 child: Text(
-                             Calendar.currentDay.toString(),
+                             eventData.shortDescription,
                               textAlign: TextAlign.left,
                             )),
                           )
