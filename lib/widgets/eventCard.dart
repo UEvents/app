@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:uevents/data/data.dart';
-import 'package:uevents/services/auth.dart';
+import 'package:uevents/widgets/calendar.dart';
 import 'package:uevents/widgets/eventExtended.dart';
 /*
   Нужно будет сделать ограничение на количество символов в кратком содержании, ибо иначе всё отображение
@@ -22,7 +20,7 @@ class EventCard {
 
   static Widget createCard(BuildContext context, Data eventData) {
     double w = 386;
-
+    
     return Column(children: <Widget>[
       Container(
           margin: EdgeInsets.symmetric(vertical: 20),
@@ -52,8 +50,12 @@ class EventCard {
                         Padding(
                             padding: EdgeInsets.only(left: 8),
                             child: Text(
-                              eventData.address + ', участники: ' +
-                                (eventData.participants != null ? eventData.participants.length : 0).toString(),
+                              eventData.address +
+                                  ', участники: ' +
+                                  (eventData.participants != null
+                                          ? eventData.participants.length
+                                          : 0)
+                                      .toString(),
                               style: TextStyle(
                                   fontSize: 14,
                                   fontFamily: 'Roboto',
@@ -110,7 +112,7 @@ class EventCard {
                           Flexible(
                             child: Container(
                                 child: Text(
-                              eventData.shortDescription,
+                             Calendar.currentDay.toString(),
                               textAlign: TextAlign.left,
                             )),
                           )
@@ -130,10 +132,15 @@ class EventCard {
                                 ),
                                 Padding(
                                     padding: const EdgeInsets.only(left: 14),
-                                    child: Text(
-                                      DateFormat("HH:mm").format(DateTime.fromMicrosecondsSinceEpoch(eventData.startTime.microsecondsSinceEpoch))
-                                        + " - " +  DateFormat("HH:mm").format(DateTime.fromMicrosecondsSinceEpoch(eventData.endTime.microsecondsSinceEpoch)))
-                                )
+                                    child: Text(DateFormat("HH:mm").format(
+                                            DateTime.fromMicrosecondsSinceEpoch(
+                                                eventData.startTime
+                                                    .microsecondsSinceEpoch)) +
+                                        " - " +
+                                        DateFormat("HH:mm").format(
+                                            DateTime.fromMicrosecondsSinceEpoch(
+                                                eventData.endTime
+                                                    .microsecondsSinceEpoch))))
                               ],
                             ),
                             Container(
@@ -143,12 +150,12 @@ class EventCard {
                                       BorderRadius.all(Radius.circular(55))),
                               child: FlatButton(
                                 onPressed: () {
-                                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) =>
-<<<<<<< HEAD
-                                    EventExtended.getExtendedEvent(context, eventData)));
-=======
-                                    ExtendedEvent.construct(eventData)));
->>>>>>> 249b45f4c939382f7c856a09dfbc9f99029b2da1
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              ExtendedEvent.construct(
+                                                  eventData)));
                                 },
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5.0),
