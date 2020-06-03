@@ -164,7 +164,6 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
 
 
       if (_email.isEmpty || _password.isEmpty) return;
-      
       User user = await _authService.registerWithEmailAndPassword(
           _email.trim(), _password.trim());
       user.name = _name;

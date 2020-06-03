@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uevents/data/data.dart';
 import 'package:uevents/domain/showEvent.dart';
+import 'package:uevents/domain/user.dart';
 import 'package:uevents/services/addEvent.dart';
 import 'package:uevents/services/auth.dart';
 import 'package:uevents/services/database.dart';
@@ -9,8 +12,11 @@ import 'package:uevents/widgets/calendar.dart';
 import 'package:uevents/widgets/settings.dart';
 
 class Landing extends State<LandingPage> {
+  User user;
   @override
   Widget build(BuildContext context) {
+        user = Provider.of<User>(context);
+
     //на основе данных с базы (_data) создает виджеты-карточки
     return Container(
         child: Scaffold(
@@ -58,7 +64,7 @@ class Landing extends State<LandingPage> {
                     ),
                     Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                     Text(
-                      'РИ-190003 FNAME LNAME',
+                      user.email,
                       style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
                   ],
@@ -67,7 +73,7 @@ class Landing extends State<LandingPage> {
                 gradient:
                     LinearGradient(colors: [Colors.pinkAccent, Colors.orange])),
           ),
-          CustomListTile(Icons.event_note, 'Мероприятия', () => {Navigator.pop(context)}),       
+          CustomListTile(Icons.event_note, 'Мероприятия', () => {Navigator.push(context, MaterialPageRoute(builder: (ctx) => LandingPage()))}),       
           CustomListTile(Icons.settings, 'Настройки', () => {Navigator.push(context, MaterialPageRoute(builder: (ctx) => SettingsPage()))}),
           CustomListTile(Icons.exit_to_app, 'Выйти', () {
             AuthService().logOut();

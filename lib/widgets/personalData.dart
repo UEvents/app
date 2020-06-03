@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:uevents/widgets/personalData.dart';
+import 'package:provider/provider.dart';
+import 'package:uevents/domain/user.dart';
 
-class Settings extends State<SettingsPage> {
+class PersonalData extends State<PersonalDataPage> {
+  User user;
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<User>(context);
     return Container(
         child: Scaffold(
       appBar: AppBar(
@@ -12,36 +15,34 @@ class Settings extends State<SettingsPage> {
       ),
       body: Column(children: [
         Padding(
-            padding: const EdgeInsets.fromLTRB(13, 13, 320, 10),
-            child: Text('Настройки',
+            padding: const EdgeInsets.fromLTRB(13, 13, 285, 10),
+            child: Text('Личные данные',
                 style: TextStyle(
                     color: Colors.grey[500], fontWeight: FontWeight.bold))),
-           CustomListTile(Icons.person, 'Личные данные', () => {Navigator.push(context, MaterialPageRoute(builder: (ctx) => PersonalDataPage()))}),  
-           CustomListTile(Icons.notifications, 'Уведомления', () => {}),
-           CustomListTile(Icons.info_outline, 'Информация', () => {}),         
-                    
+        CustomListTile('Email:', user.email, () => {}),
+        CustomListTile('ID аккаунта:', user.id, () => {}),
       ]),
     ));
   }
 }
 
 class CustomListTile extends StatelessWidget {
-  IconData icon;
+  String accountInformation;
   String text;
   Function onTap;
 
-  CustomListTile(this.icon, this.text, this.onTap);
+  CustomListTile(this.text, this.accountInformation, this.onTap);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 65,
+        height: 55,
         child: Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
             child: Container(
               decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(width: 1, color: Colors.grey))),
+                  border:
+                      Border(bottom: BorderSide(width: 1, color: Colors.grey))),
               child: InkWell(
                 splashColor: Colors.grey,
                 onTap: onTap,
@@ -50,10 +51,15 @@ class CustomListTile extends StatelessWidget {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Icon(icon, color: Colors.blue[800]),
                         Padding(
                           child: Text(text, style: TextStyle(fontSize: 16)),
-                          padding: EdgeInsets.all(15),
+                          padding: EdgeInsets.all(5),
+                        ),
+                        Padding(
+                          child: Text(accountInformation,
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.grey[600])),
+                          padding: EdgeInsets.all(5),
                         ),
                       ],
                     ),
@@ -64,7 +70,7 @@ class CustomListTile extends StatelessWidget {
   }
 }
 
-class SettingsPage extends StatefulWidget {
+class PersonalDataPage extends StatefulWidget {
   @override
-  Settings createState() => Settings();
+  PersonalData createState() => PersonalData();
 }
