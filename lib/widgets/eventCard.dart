@@ -52,7 +52,8 @@ class EventCard {
                         Padding(
                             padding: EdgeInsets.only(left: 8),
                             child: Text(
-                              eventData.address,
+                              eventData.address + ', участники: ' +
+                                (eventData.participants != null ? eventData.participants.length : 0).toString(),
                               style: TextStyle(
                                   fontSize: 14,
                                   fontFamily: 'Roboto',
@@ -143,7 +144,11 @@ class EventCard {
                               child: FlatButton(
                                 onPressed: () {
                                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) =>
+<<<<<<< HEAD
                                     EventExtended.getExtendedEvent(context, eventData)));
+=======
+                                    ExtendedEvent.construct(eventData)));
+>>>>>>> 249b45f4c939382f7c856a09dfbc9f99029b2da1
                                 },
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5.0),
