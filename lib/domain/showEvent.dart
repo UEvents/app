@@ -19,12 +19,18 @@ class _EventListState extends State<EventList> {
 
   loadData() async {
     var stream = db.getEvents();
+    print('loading');
 
     stream.listen((List<Data> data) {
       setState(() {
         EventList.eventsToShow = data;
       });
     });
+  }
+
+  Future<void> getRefresh() async 
+  {
+    await Future.delayed(Duration(seconds: 2));
   }
 
   @override
@@ -36,7 +42,11 @@ class _EventListState extends State<EventList> {
     }
 
     user = Provider.of<User>(context);
-    var eventlists = Expanded(
+    var eventlists = RefreshIndicator(
+      onRefresh: () {
+        loadData();
+        return getRefresh();
+      },
         child: ListView.builder(
             itemCount: EventList.eventsToShow.length,
             itemBuilder: (context, i) {

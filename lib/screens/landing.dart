@@ -78,7 +78,7 @@ class Landing extends State<LandingPage>
 
         body: Column(children: [
           Calendar.createCalendarBar(context), //<================== calendarBar
-          EventList()
+          Expanded(child: EventList())
         ]),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),

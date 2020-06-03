@@ -11,3 +11,16 @@ Future<bool> buildToast(String message, {Color backgroundColor = Colors.red, Col
       textColor: textColor,
       fontSize: 16.0);
 }
+
+Future<bool> buildEventToast(String message)
+{
+  return Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 3,
+    backgroundColor: Colors.red,
+    textColor: Colors.white,
+    fontSize: 16
+  );
+}

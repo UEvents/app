@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uevents/common/toast.dart';
 import 'package:uevents/data/data.dart';
 import 'package:uevents/services/auth.dart';
 import 'package:uevents/services/database.dart';
@@ -14,7 +16,6 @@ import 'package:uevents/services/database.dart';
   }
   
   class _ExtendedEventState extends State<ExtendedEvent> {
-    static bool _init = false;
     String _userId;
     bool _takesPart = false;
     Data data;
@@ -72,6 +73,7 @@ import 'package:uevents/services/database.dart';
                   if (data.participants.contains(_userId))
                   {
                     data.participants.remove(_userId);
+                    buildEventToast("Вы отказались от участия в мероприятии");
                   }
                   else
                   {
