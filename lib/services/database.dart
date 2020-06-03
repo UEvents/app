@@ -9,12 +9,7 @@ class DatabaseService{
   }
 
   Stream<List<Data>> getEvents() {
-    
-    Query query;
-    if (true){
-      query = _eventCollection.where('title', isEqualTo: 'Test');
-    }
-    return query.snapshots().map((QuerySnapshot data) =>
+    return _eventCollection.snapshots().map((QuerySnapshot data) =>
         data.documents.map(
             (DocumentSnapshot doc) => Data.fromJson(doc.documentID, doc.data)).toList());
   }

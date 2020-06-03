@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uevents/domain/user.dart';
 
 class Data {
   String uid;
@@ -8,31 +9,21 @@ class Data {
   String organizer;
   String address;
   String imageSrc;
-<<<<<<< HEAD
-  String date;
-  String startTime;
-  String endTime;
-  Data(this.uid,this.title, this.description, this.organizer, this.address,
-      this.shortDescription, this.imageSrc, this.date, this.endTime, this.startTime);
-
-  Data copy() {
-    return Data(this.uid, this.title, this.description, this.organizer,
-        this.address, this.shortDescription, this.imageSrc, this.date, this.endTime, this.startTime);
-=======
   Timestamp date;
   Timestamp startTime;
   Timestamp endTime;
-  Data(this.uid,this.title, this.description, this.organizer, this.address,
-      this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime);
+  List<dynamic> participants;
+
+  Data(this.uid, this.title, this.description, this.organizer, this.address,
+      this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime, this.participants);
 
   Data copy() {
     return Data(this.uid, this.title, this.description, this.organizer,
-        this.address, this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime);
->>>>>>> 2cc04d6dc2ddc13bcb234b96dfe0f5e41127285f
+        this.address, this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime, this.participants);
   }
 
   Data.fromJson(String uid, Map<String, dynamic> data){
-    uid = uid;
+    this.uid = data['uid'];
     title = data['title'];
     shortDescription = data['shortDescription'];
     description = data['description'];
@@ -42,6 +33,7 @@ class Data {
     date = data['date'];
     startTime = data['startTime'];
     endTime = data['endTime'];
+    participants = data['participants'];
   }
 
    Map<String, dynamic> toMap(){
@@ -56,7 +48,7 @@ class Data {
       "date": date,
       "startTime": startTime,
       "endTime": endTime,
-      "startTime": startTime,
+      "participants": participants
     };
   }
 }

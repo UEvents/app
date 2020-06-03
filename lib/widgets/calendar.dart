@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:uevents/services/database.dart';
 import 'package:uevents/widgets/datePicker/date_picker_timeline.dart';
 
 class Calendar 
 {
-  @override
+  static int currentDay;
   static Widget createCalendarBar(BuildContext context) 
   {
     return Container(
@@ -27,6 +26,7 @@ class Calendar
         selectionColor: Colors.pinkAccent,
         onDateChange: (newDate) =>
         {
+          currentDay = newDate.day, //добавить проверку
           print('Date was changed to ' + newDate.toString()) //собственно то место, где нужно реагировать на изменение в дате
           //newDate - новая дата, соответственно
         },
