@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:uevents/domain/user.dart';
 
 class Data {
@@ -16,6 +17,7 @@ class Data {
 
   Data(this.uid, this.title, this.description, this.organizer, this.address,
       this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime, this.participants);
+
 
   Data copy() {
     return Data(this.uid, this.title, this.description, this.organizer,

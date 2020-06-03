@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:uevents/data/data.dart';
-import 'package:uevents/services/auth.dart';
+import 'package:uevents/widgets/calendar.dart';
 import 'package:uevents/widgets/eventExtended.dart';
 /*
   Нужно будет сделать ограничение на количество символов в кратком содержании, ибо иначе всё отображение
