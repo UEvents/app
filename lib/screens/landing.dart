@@ -30,7 +30,7 @@ class Landing extends State<LandingPage> {
                 var stream = db.getEvents();
                 stream.listen((List<Data> data) {
                   setState(() {
-                    EventList.eventsToShow = data;
+                    //EventList.eventsToShow = data;
                   });
                 });
               },
@@ -77,6 +77,7 @@ class Landing extends State<LandingPage> {
           CustomListTile(Icons.settings, 'Настройки', () => {Navigator.push(context, MaterialPageRoute(builder: (ctx) => SettingsPage()))}),
           CustomListTile(Icons.exit_to_app, 'Выйти', () {
             AuthService().logOut();
+            Navigator.pop(context);
           }),
           borderAfterTile(context),
           textWidget(context),
