@@ -73,7 +73,7 @@ class Landing extends State<LandingPage> {
                 gradient:
                     LinearGradient(colors: [Colors.pinkAccent, Colors.orange])),
           ),
-          CustomListTile(Icons.event_note, 'Мероприятия', () => {Navigator.push(context, MaterialPageRoute(builder: (ctx) => LandingPage()))}),       
+          CustomListTile(Icons.event_note, 'Мероприятия', () => {Navigator.pop(context)}),       
           CustomListTile(Icons.settings, 'Настройки', () => {Navigator.push(context, MaterialPageRoute(builder: (ctx) => SettingsPage()))}),
           CustomListTile(Icons.exit_to_app, 'Выйти', () {
             AuthService().logOut();
