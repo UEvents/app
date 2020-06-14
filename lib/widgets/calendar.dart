@@ -26,7 +26,7 @@ class Calendar
         selectionColor: Colors.pinkAccent,
         onDateChange: (newDate) =>
         {
-          currentDay = 3, //добавить проверку
+          currentDay = newDate.day, //добавить проверку
           print('Date was changed to ' + newDate.toString()) //собственно то место, где нужно реагировать на изменение в дате
           //newDate - новая дата, соответственно
         },
