@@ -12,7 +12,7 @@ class DatabaseService{
   Stream<List<Data>> getEvents() {
     Query query;
     if (true){
-      query = _eventCollection.where('title', isEqualTo: Calendar.currentDay);
+      query = _eventCollection;
     }
     return query.snapshots().map((QuerySnapshot data) =>
         data.documents.map(

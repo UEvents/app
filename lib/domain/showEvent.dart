@@ -1,9 +1,12 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uevents/data/data.dart';
 import 'package:uevents/domain/user.dart';
 import 'package:uevents/services/database.dart';
 import 'package:uevents/widgets/eventCard.dart';
+import 'package:uevents/widgets/landingWidgets/filterBar.dart';
 
 class EventList extends StatefulWidget {
   static var eventsToShow = List<Data>();
@@ -17,7 +20,7 @@ class _EventListState extends State<EventList> {
   DatabaseService db = DatabaseService();
   
 
-  loadData() async {
+  loadData(List<String> filters) async {
     var stream = db.getEvents();
     print('loading');
 
@@ -35,24 +38,54 @@ class _EventListState extends State<EventList> {
 
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<User>(context);
     if (_isFirst)
     {
-      loadData();
+      loadData(null);
       _isFirst = false;
     }
 
-    user = Provider.of<User>(context);
+    var eventCards = List<Widget>();
+
+    HashSet<String> organizers = HashSet<String>();
+
+    for (var i = 0; i < EventList.eventsToShow.length; i++)
+    {
+      if (!organizers.contains(EventList.eventsToShow[i].organizer))
+        organizers.add(EventList.eventsToShow[i].organizer);
+    }
+
+    eventCards.add(Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(top: 10),
+      child: Text('Мероприятия 10.06.2020', style: TextStyle(fontSize: 25))
+    ));
+
+    for (var i = 0; i < EventList.eventsToShow.length; i++)
+      eventCards.add(EventCard.createCard(context, EventList.eventsToShow[i]));
+
     var eventlists = RefreshIndicator(
       onRefresh: () {
-        loadData();
+        loadData(null);
         return getRefresh();
       },
-        child: ListView.builder(
-            itemCount: EventList.eventsToShow.length,
-            itemBuilder: (context, i) {
-              return EventCard.createCard(context, EventList.eventsToShow[i]);
-            }));
+      child: ListView(children: eventCards));
+      
+    var filterBar = FilterBar(false);
+    filterBar.setFilters({
+      "Организаторы" : organizers.toList()
+    });
 
-    return eventlists;
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        GestureDetector(
+          onTap: () { if (filterBar.isExpanded()) { filterBar.setExpansion(false); setState((){});}},
+          child: eventlists,
+          excludeFromSemantics: false,
+        ),
+        filterBar
+      ]
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uevents/widgets/personalData.dart';
+import 'settingsWidgets/customListTile.dart' as settingsWidgets;
 
 class Settings extends State<SettingsPage> {
   @override
@@ -9,6 +10,10 @@ class Settings extends State<SettingsPage> {
       appBar: AppBar(
         title: Text('Настройки'),
         backgroundColor: Colors.pinkAccent,
+        leading: InkWell(
+          child: Icon(Icons.arrow_back),
+          onTap: () { print('returning from Settings to Main Screen'); Navigator.pop(context);},
+        ),
       ),
       body: Column(children: [
         Padding(
@@ -16,51 +21,11 @@ class Settings extends State<SettingsPage> {
             child: Text('Настройки',
                 style: TextStyle(
                     color: Colors.grey[500], fontWeight: FontWeight.bold))),
-           CustomListTile(Icons.person, 'Личные данные', () => {Navigator.push(context, MaterialPageRoute(builder: (ctx) => PersonalDataPage()))}),  
-           CustomListTile(Icons.notifications, 'Уведомления', () => {}),
-           CustomListTile(Icons.info_outline, 'Информация', () => {}),         
-                    
+           settingsWidgets.CustomListTile(Icons.person, 'Личные данные', () => {Navigator.push(context, MaterialPageRoute(builder: (ctx) => PersonalDataPage()))}),  
+           settingsWidgets.CustomListTile(Icons.notifications, 'Уведомления', () => {}),
+           settingsWidgets.CustomListTile(Icons.info_outline, 'Информация', () => {}),           
       ]),
     ));
-  }
-}
-
-class CustomListTile extends StatelessWidget {
-  IconData icon;
-  String text;
-  Function onTap;
-
-  CustomListTile(this.icon, this.text, this.onTap);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        height: 65,
-        child: Padding(
-            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-            child: Container(
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(width: 1, color: Colors.grey))),
-              child: InkWell(
-                splashColor: Colors.grey,
-                onTap: onTap,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Icon(icon, color: Colors.blue[800]),
-                        Padding(
-                          child: Text(text, style: TextStyle(fontSize: 16)),
-                          padding: EdgeInsets.all(15),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )));
   }
 }
 
