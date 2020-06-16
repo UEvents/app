@@ -17,7 +17,7 @@ class FormElement
     ); 
   }
 
-  static Widget createDateElement(String label, Function(dynamic val) stateSetter) 
+  static Widget createDateElement(String label, Function(dynamic val) stateSetter, String Function(dynamic) formValidator) 
   {
     return Container(
       child: DateTimeField(
@@ -25,6 +25,7 @@ class FormElement
           labelText: label,
           labelStyle: TextStyle(fontSize: 16)
         ),
+        validator: formValidator,
         format: DateFormat("yyyy-MM-dd"),
         onShowPicker: (context, currentValue) async {
           var date = await showDatePicker(

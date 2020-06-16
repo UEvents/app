@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uevents/data/data.dart';
@@ -24,9 +23,14 @@ class _EventListState extends State<EventList> {
     var stream = db.getEvents();
     print('loading');
 
-    stream.listen((List<Data> data) {
+    stream.listen((List<Data> dataList) {
       setState(() {
-        EventList.eventsToShow = data;
+        if (filters != null)
+        {
+          EventList.eventsToShow = dataList.where((g) => g.organizer == filters.first);
+        }
+        else 
+          EventList.eventsToShow = dataList;
       });
     });
   }
@@ -50,10 +54,8 @@ class _EventListState extends State<EventList> {
     HashSet<String> organizers = HashSet<String>();
 
     for (var i = 0; i < EventList.eventsToShow.length; i++)
-    {
       if (!organizers.contains(EventList.eventsToShow[i].organizer))
         organizers.add(EventList.eventsToShow[i].organizer);
-    }
 
     eventCards.add(Container(
       alignment: Alignment.center,
@@ -64,14 +66,12 @@ class _EventListState extends State<EventList> {
     for (var i = 0; i < EventList.eventsToShow.length; i++)
       eventCards.add(EventCard.createCard(context, EventList.eventsToShow[i]));
 
-    var eventlists = RefreshIndicator(
-      onRefresh: () {
-        loadData(null);
-        return getRefresh();
-      },
-      child: ListView(children: eventCards));
+    var eventlists = ListView(children: eventCards);
       
-    var filterBar = FilterBar(false);
+    var filterBar = FilterBar(false, () => { 
+      
+    });
+
     filterBar.setFilters({
       "Организаторы" : organizers.toList()
     });

@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 class FilterBar extends StatefulWidget
 {
   bool _filterBarExpanded;
+  void Function() _onPressed;
   Map<String, List<String>> _filters = {
     "Тематика" : ["Программирование", "Анализ данных", "Маркетинг", "Экономика"],
     "Организатор" : ["УрФУ", "УФрУ", "Лестех", "Техлес"]
-  };
+  }; 
 
   bool isExpanded()
   {
     return _filterBarExpanded;
   }
 
-  void setFilters( Map<String, List<String>> filters)
+  void setFilters(Map<String, List<String>> filters)
   {
     _filters = filters;
   }
@@ -24,7 +25,7 @@ class FilterBar extends StatefulWidget
     _filterBarExpanded = isExpanded;
   }
 
-  FilterBar(this._filterBarExpanded);
+  FilterBar(this._filterBarExpanded, this._onPressed);
 
   @override
   State<StatefulWidget> createState() => _FilterBarState();
@@ -101,7 +102,7 @@ class _FilterBarState extends State<FilterBar>
     content.add(Padding(padding: EdgeInsets.symmetric(vertical: 8)));
 
     content.add(FlatButton(
-      onPressed: () {  },
+      onPressed: () => widget._onPressed,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
           side: BorderSide(color: Colors.red)),
@@ -126,9 +127,12 @@ class _FilterBarState extends State<FilterBar>
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
         width: 300,
-        child: ListView(
-          shrinkWrap: true,
-          children: content
+        child: ScrollConfiguration(
+          behavior: _CustomScrollBehaviour(),
+          child: ListView(
+            shrinkWrap: true,
+            children: content
+          ),
         )
       ),
     );
@@ -144,39 +148,45 @@ class _FilterBarState extends State<FilterBar>
                 border: OutlineInputBorder(borderSide: BorderSide.none),
                 contentPadding: EdgeInsets.only(left: 10)
               ),
-              child: _createDropDownItem(filtersTitle, filters, (val) => { setState(() { _filterSelectedValues[filtersTitle] = val; })})
+              child: _createFilterItem(filtersTitle, filters, (val) => { setState(() { _filterSelectedValues[filtersTitle] = val; })})
             ),
           );
         }
     );
   }
 
-  DropdownButton _createDropDownItem(String groupName, List<String> filters, void Function(String arg) onChangedFunc)
+  Widget _createFilterItem(String groupName, List<String> filters, void Function(String arg) onChangedFunc)
   {
-    List<DropdownMenuItem> items = List<DropdownMenuItem>();
+    List<Widget> items = List<Widget>();
 
     for (var filter in filters)
     {
-      items.add(DropdownMenuItem<String>(
-        value: filter,
-        child: Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(filter, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300))
-            ]
-          ),
-        )
+      items.add(Container(
+        margin: EdgeInsets.symmetric(horizontal: 4),
+        child: ChoiceChip( 
+          selected: false,
+          label: Text(filter),
+          onSelected: (val) {},
+        ),
       ));
     }
 
-    return DropdownButton(
-      isExpanded: true,
-      value: _filterSelectedValues[groupName],
-      underline: Container(),
-      icon: Icon(Icons.filter_list),
-      hint: Text('Выберите из списка',  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300)),
-      items: items,
-      onChanged: (arg) => onChangedFunc(arg));
+    return Container(height: 50, child:
+      ScrollConfiguration(
+        behavior: _CustomScrollBehaviour(),
+          child: ListView(        
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          children: items
+        ),
+      )
+    );
+  }
+}
+
+class _CustomScrollBehaviour extends ScrollBehavior {
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
   }
 }
