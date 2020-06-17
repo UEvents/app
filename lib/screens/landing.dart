@@ -6,11 +6,10 @@ import 'package:uevents/domain/showEvent.dart';
 import 'package:uevents/domain/user.dart';
 import 'package:uevents/services/addEvent.dart';
 import 'package:uevents/services/auth.dart';
-import 'package:uevents/services/database.dart';
 import 'package:uevents/widgets/calendar.dart';
 import 'package:uevents/widgets/landingWidgets/customListTile.dart';
-import 'package:uevents/widgets/landingWidgets/filterBar.dart';
 import 'package:uevents/widgets/settings.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Landing extends State<LandingPage> {
   User user;
@@ -74,7 +73,7 @@ class Landing extends State<LandingPage> {
                 gradient:
                     LinearGradient(colors: [Colors.pinkAccent, Colors.orange])),
           ),
-          //CustomListTile(Icons.event_note, 'Мероприятия', () => {Navigator.push(context, MaterialPageRoute(builder: (ctx) => LandingPage()))}),       
+          CustomListTile(Icons.event_note, 'Мероприятия', () => {Navigator.pop(context)}),       
           CustomListTile(Icons.settings, 'Настройки', () => { Navigator.push(context, MaterialPageRoute(builder: (ctx) => SettingsPage()))}),
           CustomListTile(Icons.exit_to_app, 'Выйти', () {
             print(user.email);
@@ -83,7 +82,7 @@ class Landing extends State<LandingPage> {
           }),
           ListTileWidgets.borderAfterTile(context),
           ListTileWidgets.textWidget(context),
-          CustomListTile(Icons.launch, 'Перейти на сайт', () => {}),
+          CustomListTile(Icons.launch, 'Перейти на сайт', () => {_launchURL()}),
         ],
       )),
         body: Column(children: [
@@ -101,6 +100,14 @@ class Landing extends State<LandingPage> {
       ) 
     );
   }
+  _launchURL() async {
+  const url = 'https://urfu.ru/ru/events/';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 }
 
 class LandingPage extends StatefulWidget {
