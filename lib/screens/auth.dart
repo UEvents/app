@@ -147,7 +147,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
 
       if (_email.isEmpty || _password.isEmpty) return;
 
-      User user = await _authService.signInWithEmailAndPasswor(
+      User user = await _authService.signInWithEmailAndPassword(
           _email.trim(), _password.trim());
       if (user == null) {
         buildToast("Не удается войти. Пожалуйста, проверьте логин/пароль");

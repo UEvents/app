@@ -46,6 +46,7 @@ class _AddEventState extends State<AddEvent> {
   }
 
   void _saveEvent() async {
+    print('saveevent');
     if (_fbKey.currentState.saveAndValidate()) {
       if (event == null) {
         buildToast('Проверьте корректность введенных Вами данных');
@@ -70,7 +71,7 @@ class _AddEventState extends State<AddEvent> {
             appBar: AppBar(
               title: Text('Создание мероприятия', style: TextStyle(fontSize: 20)),
               backgroundColor: Colors.pinkAccent,
-              actions: <Widget>[SaveButton(onPressed: _saveEvent)],
+              actions: <Widget>[SaveButton(onPressedFunc: _saveEvent)],
             ),
             backgroundColor: Colors.white,
             body: Container(
@@ -108,11 +109,14 @@ class _AddEventState extends State<AddEvent> {
                       ]),
                       FormElement.createTextElement("Ссылка на изображение", (val) => event.imageSrc = val, 
                       [
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.minLength(30),
+                        FormBuilderValidators.required(errorText: "Поле не может быть пустым"),
                         FormBuilderValidators.maxLength(120),
                       ]),
-                      FormElement.createDateElement("Дата проведения", (val) => event.date = Timestamp.fromDate(val)),
+                      FormElement.createDateElement("Дата проведения", (val) => 
+                      {
+                        if (val != null)
+                          event.date = Timestamp.fromDate(val)                  
+                      }, FormBuilderValidators.required(errorText: "Поле не может быть пустым")),
                       FormElement.createHourElement("Время начала", (val) =>
                         event.startTime = Timestamp.fromMillisecondsSinceEpoch(val.millisecondsSinceEpoch)),
                       FormElement.createHourElement("Время окончания", (val) =>

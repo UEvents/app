@@ -22,6 +22,7 @@ class PersonalData extends State<PersonalDataPage> {
                     color: Colors.grey[500], fontWeight: FontWeight.bold))),
         CustomListTile('Email:', user.email, () => {}),
         CustomListTile('ID аккаунта:', user.id, () => {}),
+        CustomListTile('Уровень доступа: ', user.access.toString(), () => {})
       ]),
     ));
   }
