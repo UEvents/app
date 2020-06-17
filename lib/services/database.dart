@@ -32,7 +32,7 @@ class DatabaseService{
     Query query;
 
     if (true){
-      query = _eventCollection.where('title', isEqualTo: 'Event');
+      query = _eventCollection;
     }
 
     return query.snapshots().map((QuerySnapshot data) =>

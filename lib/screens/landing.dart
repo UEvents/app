@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:uevents/data/data.dart';
 import 'package:uevents/domain/user.dart';
 import 'package:uevents/services/addEvent.dart';
 import 'package:uevents/services/auth.dart';
+import 'package:uevents/services/database.dart';
 import 'package:uevents/widgets/calendar.dart';
 import 'package:uevents/widgets//eventCard.dart';
 import 'package:uevents/widgets/landingWidgets/customListTile.dart';
@@ -94,7 +94,7 @@ class Landing extends State<LandingPage> {
                 expandedHeight: 200,
                 title: Text('U.Events'),
                 flexibleSpace: FlexibleSpaceBar(
-                  background: Image.network("https://psv4.userapi.com/c856428/u173808548/docs/d7/9ca31a4d07d4/Frame_1.png?extra=Uf1Ak7mVOyuCvtZBRuskwDBlUyzzCFcUqz006z3JUiknYoCB5dpXIMhrfEk5NrRJ37U7nsnYsKoZvTqwB1fhUg_yTRl9qaK0uRJ84Ca6Um0KBvsYD-gX9aP5zx0avl2nDy8kRkbI-IBbAeY9QU6XsShm",
+                  background: Image.network("https://studyinrussia.ru/upload/iblock/784/784c811d5a90c659b490405aede1b112.jpg",
                   fit: BoxFit.cover)),
               ),
               SliverToBoxAdapter(
