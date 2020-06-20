@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SaveButton extends StatelessWidget {
-  Function onPressedFunc;
+  final Function onPressedFunc;
 
   SaveButton({Key key, @required this.onPressedFunc}) : super(key: key);
 

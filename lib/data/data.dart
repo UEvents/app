@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uevents/domain/user.dart';
 
@@ -15,9 +16,21 @@ class Data {
   Timestamp endTime;
   List<dynamic> participants;
 
+  Data.placeHolder() 
+  {
+    String _loremIpsum = 'Давно выяснено, что при оценке дизайна и композиции читаемый'
+      + 'текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более' 
+      + 'или менее стандартное заполнение шаблона.';
+
+
+    uid = 'abcde'; title = 'Заголовок';
+      shortDescription = _loremIpsum; description = 'Полное описание';
+        address = 'Адрес'; organizer = 'Организатор'; imageSrc = 'imageSrc'; date = Timestamp.now();
+          startTime = Timestamp.now(); endTime = Timestamp.now(); participants = List<dynamic>();
+  }
+
   Data(this.uid, this.title, this.description, this.organizer, this.address,
       this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime, this.participants);
-
 
   Data copy() {
     return Data(this.uid, this.title, this.description, this.organizer,

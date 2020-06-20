@@ -10,7 +10,7 @@ import 'package:uevents/services/addEvent.dart';
 import 'package:uevents/services/auth.dart';
 import 'package:uevents/services/database.dart';
 import 'package:uevents/widgets/calendar.dart';
-import 'package:uevents/widgets//eventCard.dart';
+import 'package:uevents/widgets/landingWidgets/eventCard.dart';
 import 'package:uevents/widgets/landingWidgets/customListTile.dart';
 import 'package:uevents/widgets/settings.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -94,7 +94,7 @@ class Landing extends State<LandingPage> {
                 expandedHeight: 200,
                 title: Text('U.Events'),
                 flexibleSpace: FlexibleSpaceBar(
-                  background: Image.network("https://studyinrussia.ru/upload/iblock/784/784c811d5a90c659b490405aede1b112.jpg",
+                  background: Image.asset('resources/background.png',
                   fit: BoxFit.cover)),
               ),
               SliverToBoxAdapter(
@@ -103,7 +103,10 @@ class Landing extends State<LandingPage> {
               SliverList( 
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return EventCard.createCard(context, _eventsToShow[index]);
+                    return Container(
+                      margin: EdgeInsets.only(top: 30),
+                      child: EventWidget(_eventsToShow[index])
+                    );
                   },
                   childCount: _eventsToShow.length
                 )    
@@ -111,6 +114,7 @@ class Landing extends State<LandingPage> {
             ]
         ),
         floatingActionButton: _adminAccess ? FloatingActionButton(
+          elevation: 7,
             child: Icon(Icons.add),
             backgroundColor: Colors.white,
             foregroundColor: Theme.of(context).primaryColor,
