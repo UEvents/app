@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:uevents/data/data.dart';
 import 'package:uevents/domain/user.dart';
 import 'package:uevents/services/database.dart';
+import 'package:uevents/widgets/calendar.dart';
 import 'package:uevents/widgets/eventCard.dart';
 import 'package:uevents/widgets/landingWidgets/filterBar.dart';
 

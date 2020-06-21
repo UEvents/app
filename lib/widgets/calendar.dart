@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:uevents/screens/landing.dart';
 import 'package:uevents/widgets/datePicker/date_picker_timeline.dart';
 
-class Calendar 
+class CalendarWidget extends StatefulWidget
 {
+  int currentDay = DateTime.now().day;
 
-  
-  static int currentDay;
+  @override
+  State<StatefulWidget> createState() => _CalendarWidgetState();  
+}
+
+class _CalendarWidgetState extends State<CalendarWidget>
+{
   static int divider = 1000000;
-  static Widget createCalendarBar(BuildContext context) 
-  {
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration( 
         color: Colors.white,
@@ -27,14 +34,15 @@ class Calendar
         dateTextStyle: TextStyle(color: Color.fromRGBO(134, 134, 134, 1), fontWeight: FontWeight.w300, fontSize: 18),
         selectedTextColor: Colors.white,
         selectionColor: Colors.pinkAccent,
+        initialSelectedDate: DateTime.now(),
         onDateChange: (newDate) =>
         {
           newDate.microsecondsSinceEpoch,
-          currentDay = newDate.day, 
-          print('Date was changed to ' + (newDate.microsecondsSinceEpoch/divider).toString()) 
-          
+          Landing.currentDay = newDate.day, 
+          setState(() {})
         },
       )
     );
   }
+
 }

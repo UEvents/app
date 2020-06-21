@@ -8,13 +8,16 @@ import 'package:uevents/services/addEvent.dart';
 import 'package:uevents/services/auth.dart';
 import 'package:uevents/services/database.dart';
 import 'package:uevents/widgets/calendar.dart';
+import 'package:uevents/widgets/datePicker/date_picker_widget.dart';
 import 'package:uevents/widgets/landingWidgets/eventExtended.dart';
 import 'package:uevents/widgets/landingWidgets/eventCard.dart';
 import 'package:uevents/widgets/landingWidgets/customListTile.dart';
+import 'package:uevents/widgets/myEvents.dart';
 import 'package:uevents/widgets/settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Landing extends State<LandingPage> {
+  static int currentDay = DateTime.now().day;
   bool _adminAccess = false;
   Stream<List<Data>> _databaseEvents = DatabaseService().getEvents();
   List<Data> _eventsToShow = List<Data>();
@@ -23,6 +26,7 @@ class Landing extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     user = Provider.of<User>(context);
+    print(currentDay);
 
     if (user.access.level > 0)
       setState(() { _adminAccess = true; });
@@ -51,10 +55,14 @@ class Landing extends State<LandingPage> {
                       elevation: 15,
                       child: Padding(
                         padding: EdgeInsets.all(8),
-                        child: Image.network(
-                            "https://urfu.ru/fileadmin/user_upload/common_files/about/brand/UrFULogo_U.png",
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image.network(
+                            user.avatarUrl,
                             height: 100,
-                            width: 100),
+                            width: 100
+                          ),
+                        ),
                       ),
                     ),
                     Padding(padding: EdgeInsets.symmetric(vertical: 5)),
@@ -68,7 +76,8 @@ class Landing extends State<LandingPage> {
                 gradient:
                     LinearGradient(colors: [Colors.pinkAccent, Colors.orange])),
           ),
-          CustomListTile(Icons.event_note, 'Мероприятия', () => {Navigator.pop(context)}),       
+          CustomListTile(Icons.event_note, 'Мероприятия', () => {Navigator.pop(context)}),   
+          CustomListTile(Icons.event_available, 'Мои мероприятия', () => { Navigator.push(context, MaterialPageRoute(builder: (ctx) => MyEventPage()))}),   
           CustomListTile(Icons.settings, 'Настройки', () => { Navigator.push(context, MaterialPageRoute(builder: (ctx) => SettingsPage()))}),
           CustomListTile(Icons.exit_to_app, 'Выйти', () {
             //print(user.email);
@@ -92,16 +101,41 @@ class Landing extends State<LandingPage> {
                   fit: BoxFit.cover)),
               ),
               SliverToBoxAdapter(
-                child: Calendar.createCalendarBar(context),
+                child: Container(
+              decoration: BoxDecoration( 
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), 
+                  ),
+                ],
+              ),
+              child: DatePicker(
+                DateTime.now(),
+                daysCount: 30,
+                dateTextStyle: TextStyle(color: Color.fromRGBO(134, 134, 134, 1), fontWeight: FontWeight.w300, fontSize: 18),
+                selectedTextColor: Colors.white,
+                selectionColor: Colors.pinkAccent,
+                initialSelectedDate: DateTime.now(),
+                onDateChange: (newDate) =>
+                {
+                  newDate.microsecondsSinceEpoch,
+                  Landing.currentDay = newDate.day, 
+                  setState(() {})
+                },))
               ),
               SliverList( 
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
+                    var list = _eventsToShow.where((element) => element.date.toDate().day == currentDay).toList();
                     return Container(
                       margin: EdgeInsets.only(top: 30),
-                      child: EventWidget(_eventsToShow[index], 
+                      child: EventWidget(list[index], 
                         () {
-                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => ExtendedEvent(_eventsToShow[index])));
+                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => ExtendedEvent(list[index])));
                         },
                         () {
                           showDialog(context: context, builder: (cont) =>
@@ -112,7 +146,7 @@ class Landing extends State<LandingPage> {
                                   Navigator.of(context).pop();
                                 }),
                                 FlatButton(child: Text('Да'), onPressed: () {
-                                  DatabaseService().removeEvent(_eventsToShow[index]);
+                                  DatabaseService().removeEvent(list[index]);
                                   Navigator.of(context).pop();
                                 })
                               ]
@@ -137,7 +171,7 @@ class Landing extends State<LandingPage> {
                      )
                     );
                   },
-                  childCount: _eventsToShow.length
+                  childCount: _eventsToShow.where((element) => element.date.toDate().day == currentDay).length
                 )    
               ),
             ]

@@ -239,8 +239,8 @@ class EventExtendedPageHeader implements SliverPersistentHeaderDelegate {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Image.asset(
-          'resources/background.png',
+        Image.network(
+          data.imageSrc,
           fit: BoxFit.cover,
         ),
         Container(

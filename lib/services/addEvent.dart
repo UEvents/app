@@ -8,6 +8,7 @@ import 'package:uevents/common/savebutton.dart';
 import 'package:uevents/common/toast.dart';
 import 'package:uevents/data/data.dart';
 import 'package:uevents/domain/user.dart';
+import 'package:uevents/services/auth.dart';
 import 'package:uevents/services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:uevents/widgets/formElement.dart';
@@ -64,8 +65,10 @@ class _AddEventState extends State<AddEvent> {
   }
   Widget build(BuildContext context) {
     user = Provider.of<User>(context);
+
     event.organizer = user.name;
     event.organizerRef = Firestore.instance.collection('users').document(user.id);
+    event.organizerAvatarSrc = user.avatarUrl;
 
     return Container(
         child: Scaffold(

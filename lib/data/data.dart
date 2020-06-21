@@ -11,6 +11,7 @@ class Data {
   String organizer;
   String address;
   String imageSrc;
+  String organizerAvatarSrc = "";
   DocumentReference organizerRef;
   Timestamp date;
   Timestamp startTime;
@@ -36,6 +37,7 @@ class Data {
         if (organizerRef != null) 
           organizerRef.get().asStream().listen((event) {
             organizer = event.data['name'];
+            
             print(organizer);
           });
       }
@@ -59,6 +61,10 @@ class Data {
     endTime = data['endTime'];
     participants = data['participants'];
     organizerRef = data['organizerRef'];
+    organizerAvatarSrc = data['organizerAvatarSrc'];
+
+    if (organizerAvatarSrc == null)
+      organizerAvatarSrc = "";
   }
 
    Map<String, dynamic> toMap(){
@@ -74,7 +80,8 @@ class Data {
       "startTime": startTime,
       "endTime": endTime,
       "participants": participants,
-      "organizerRef": organizerRef
+      "organizerRef": organizerRef,
+      "organizerAvatarSrc": organizerAvatarSrc
     };
   }
 }

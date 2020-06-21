@@ -4,16 +4,16 @@ import 'access.dart';
 
 class User {
   String id;
-  String name;
+  String name = "";
   String email;
   Access access;
-  String avatarUrl;
+  String avatarUrl = "";
 
   User(this.id, this.name);
 
   User.fromFirebase(FirebaseUser fUser){
     id = fUser.uid;
-    name = "null";
+    name = "";
     email = fUser.email;
     access = Access(0);
 

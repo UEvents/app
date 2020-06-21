@@ -27,7 +27,6 @@ class _EventWidgetState extends State<EventWidget>
   Color _backContainerColor = Color.fromRGBO(220, 220, 220, 1);
   Color _frontContainerColor = Color.fromRGBO(240, 240, 240, 1);
 
-
   @override
   Widget build(BuildContext context) {
     DateTime startTime = widget._eventData.startTime.toDate();
@@ -120,7 +119,7 @@ class _EventWidgetState extends State<EventWidget>
                               child: ClipRRect( 
                                 borderRadius: BorderRadius.circular(100),
                                 child: Image.network(
-                                  "https://pbs.twimg.com/profile_images/1194221563949862913/LcIsIOZR_400x400.jpg",
+                                  widget._eventData.organizerAvatarSrc,
                                   fit: BoxFit.cover
                                 ),
                               ),
@@ -187,15 +186,21 @@ class _EventWidgetState extends State<EventWidget>
                         child: ClipRRect(
                           borderRadius: _frontContainerBorderRadius,
                           child: Image.network(
-                            "https://cdn.app.compendium.com/uploads/user/e7c690e8-6ff9-102a-ac6d-e4aebca50425/b99b532f-aedc-4dae-9830-5d6570359232/Image/ca202e9bc6abbfe35aac045248b4784e/ai_machinelearning.jpg",
-
+                            widget._eventData.imageSrc,
+                            errorBuilder: (context, obj, stackTrace) 
+                            {
+                              return Container(
+                                child: Text('Изображение не найдено!')
+                              );
+                            },
                           ),
                         )
                       ),
                       Container( 
                         //margin: EdgeInsets.only(top: 20),
                         child: Text(
-                          widget._eventData.shortDescription
+                          widget._eventData.shortDescription,
+                          style: TextStyle(fontSize: 16)
                         )
                       ),
                       Container(
