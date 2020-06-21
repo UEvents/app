@@ -6,8 +6,9 @@ import 'package:uevents/data/data.dart';
 class EventWidget extends StatefulWidget 
 {
   final Data _eventData;
+  final void Function() _onDetailsButtonPressed;
 
-  EventWidget(this._eventData);
+  EventWidget(this._eventData, this._onDetailsButtonPressed);
 
   @override
   State<StatefulWidget> createState() => _EventWidgetState();
@@ -37,176 +38,193 @@ class _EventWidgetState extends State<EventWidget>
       child: Stack(
         alignment: Alignment.center,
         children: [  
-          Container(
-            width: _backContainerWidth,
-            height: _backContainerHeight,
-            decoration: BoxDecoration(
-              color: _backContainerColor,
-              borderRadius: _backContainerBorderRadius
-            ),
-
-            child: Column( 
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(
-                    left: 25,
-                    right: 33
-                  ),
-                  height: addressSpaceHeight,
-                  child: Row( 
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: Row( 
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(Icons.location_on, color: Colors.pinkAccent, size: 30,),
-                            Container(
-                              margin: EdgeInsets.only(
-                                left: 5,
-                                top: 1
-                              ),
-                              child: Text(widget._eventData.address, style: TextStyle(fontSize: 16))
-                            )
-                          ],
-                        ),
-                      ),
-                      Container( 
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 7),
-                              child: Icon(Icons.access_time)
-                            ),
-                            Text(
-                              DateFormat("HH:mm").format(startTime) + ' - ' + DateFormat("HH:mm").format(endTime),
-                              style: TextStyle(fontSize: 16)
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Container( 
-                  height: addressSpaceHeight,
-
-                  child: Row( 
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 28),
-                        width: 22,
-                        height: 22,
-                        decoration: BoxDecoration( 
-                          border: Border.all(width: 2, color: Colors.pinkAccent),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-
-                        child: ClipRRect( 
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.network(
-                            "https://pbs.twimg.com/profile_images/1194221563949862913/LcIsIOZR_400x400.jpg",
-                            fit: BoxFit.cover
-                          ),
-                        ),
-                      ),
-                      Container( 
-                        margin: EdgeInsets.only(
-                          left: 10,
-                          top: 1
-                        ),
-                        child: Text(widget._eventData.organizer, style: TextStyle(fontSize: 16)),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            )
-          ),
           Material(
             elevation: 5,
-            borderRadius: _frontContainerBorderRadius,
+            shape: RoundedRectangleBorder(borderRadius: _backContainerBorderRadius),
+
             child: Container(
-              width: _frontContainerWidth,
-              height: _frontContainerHeight,
+              width: _backContainerWidth,
+              height: _backContainerHeight,
               decoration: BoxDecoration(
-                color: _frontContainerColor,
-                borderRadius: _frontContainerBorderRadius
+                color: _backContainerColor,
+                borderRadius: _backContainerBorderRadius
               ),
 
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: contentPadding),
-
-                child: Column( 
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container( 
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(top: 15),
-
-                      child: Text(
-                        widget._eventData.title,
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)
-                      ),
+              child: Column( 
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 25,
+                      right: 33
                     ),
-                    Container( 
-                      //margin: EdgeInsets.only(top: 10),
-                      decoration: BoxDecoration( 
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black,
-                            spreadRadius: -12.0,
-                            blurRadius: 12.0,
+                    height: addressSpaceHeight,
+                    child: Row( 
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Row( 
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.location_on, color: Colors.pinkAccent, size: 30,),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: 5,
+                                  top: 1
+                                ),
+                                child: Text(widget._eventData.address, style: TextStyle(fontSize: 16))
+                              )
+                            ],
                           ),
-                        ]
-                      ),
-                      child: ClipRRect(
-                        borderRadius: _frontContainerBorderRadius,
-                        child: Image.network(
-                          "https://cdn.app.compendium.com/uploads/user/e7c690e8-6ff9-102a-ac6d-e4aebca50425/b99b532f-aedc-4dae-9830-5d6570359232/Image/ca202e9bc6abbfe35aac045248b4784e/ai_machinelearning.jpg",
-
                         ),
-                      )
+                        Container( 
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              //Container(
+                              //  margin: EdgeInsets.only(right: 7),
+                              //  child: Icon(Icons.access_time)
+                              //),
+                              Text(
+                                DateFormat("HH:mm").format(startTime) + ' - ' + DateFormat("HH:mm").format(endTime),
+                                style: TextStyle(fontSize: 16)
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                    Container( 
-                      //margin: EdgeInsets.only(top: 20),
-                      child: Text(
-                        widget._eventData.shortDescription
-                      )
+                  ),
+                  Container( 
+                    padding: EdgeInsets.only(
+                      left: 26,
+                      right: 33
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 13),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          FlatButton(
-                            onPressed: () {
-                               
-                            },
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(color: Colors.red)),
-                            color: Colors.pinkAccent,
+                    height: addressSpaceHeight,
 
-                            child: Container(
-                              width: 160,
-                              height: 30,
-                              alignment: Alignment.center,
-                              child: Text(
-                                'УЗНАТЬ БОЛЬШЕ',
-                                style: TextStyle(color: Colors.white),
+                    child: Row( 
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 22,
+                              height: 22,
+                              decoration: BoxDecoration( 
+                                border: Border.all(width: 2, color: Colors.pinkAccent),
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+
+                              child: ClipRRect( 
+                                borderRadius: BorderRadius.circular(100),
+                                child: Image.network(
+                                  "https://pbs.twimg.com/profile_images/1194221563949862913/LcIsIOZR_400x400.jpg",
+                                  fit: BoxFit.cover
+                                ),
                               ),
                             ),
+                            Container( 
+                              margin: EdgeInsets.only(
+                                left: 15,
+                                top: 1
+                              ),
+                              child: Text(widget._eventData.organizer, style: TextStyle(fontSize: 16)),
+                            )
+                          ],
                         ),
-                        ]
-                      ),
+                        Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(right: 10),
+                                child: Icon(Icons.people)
+                              ),
+                              Text(widget._eventData.participants.length.toString())
+                            ],
+                          )
+                        )
+                      ],
                     ),
-                  ],
-                  
-                ),
+                  )
+                ],
               )
+            ),
+          ),
+          Material(
+            elevation: 3,
+            borderRadius: _frontContainerBorderRadius,
+            color: _frontContainerColor,
+            
+            child: InkWell(
+              onTap: () {},
+
+              child: Container(
+                width: _frontContainerWidth,
+                height: _frontContainerHeight,
+                decoration: BoxDecoration(
+                  borderRadius: _frontContainerBorderRadius
+                ),
+
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: contentPadding),
+
+                  child: Column( 
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container( 
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(top: 15),
+
+                        child: Text(
+                          widget._eventData.title,
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)
+                        ),
+                      ),
+                      Container( 
+                        child: ClipRRect(
+                          borderRadius: _frontContainerBorderRadius,
+                          child: Image.network(
+                            "https://cdn.app.compendium.com/uploads/user/e7c690e8-6ff9-102a-ac6d-e4aebca50425/b99b532f-aedc-4dae-9830-5d6570359232/Image/ca202e9bc6abbfe35aac045248b4784e/ai_machinelearning.jpg",
+
+                          ),
+                        )
+                      ),
+                      Container( 
+                        //margin: EdgeInsets.only(top: 20),
+                        child: Text(
+                          widget._eventData.shortDescription
+                        )
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 13),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            FlatButton(
+                              onPressed: widget._onDetailsButtonPressed,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  side: BorderSide(color: Colors.red)),
+                              color: Colors.pinkAccent,
+
+                              child: Container(
+                                width: 160,
+                                height: 30,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'УЗНАТЬ БОЛЬШЕ',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                          ),
+                          ]
+                        ),
+                      ),
+                    ],
+                    
+                  ),
+                )
+              ),
             ),
           ),
         ],

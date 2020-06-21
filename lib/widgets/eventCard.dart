@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:uevents/data/data.dart';
 import 'package:uevents/widgets/calendar.dart';
-import 'package:uevents/widgets/eventExtended.dart';
+import 'package:uevents/widgets/landingWidgets/eventExtended.dart';
 /*
   Нужно будет сделать ограничение на количество символов в кратком содержании, ибо иначе всё отображение
   к хуям ломается (ну, в лучшем случае, кнопка съезжает на пару пикселей)
@@ -144,7 +144,7 @@ class EventCard {
                                 child: FlatButton(
                                   onPressed: () {
                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) =>
-                                      ExtendedEvent.construct(eventData)));
+                                      ExtendedEvent(eventData)));
                                   },
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5.0),

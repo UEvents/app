@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,6 +8,7 @@ import 'package:uevents/services/addEvent.dart';
 import 'package:uevents/services/auth.dart';
 import 'package:uevents/services/database.dart';
 import 'package:uevents/widgets/calendar.dart';
+import 'package:uevents/widgets/landingWidgets/eventExtended.dart';
 import 'package:uevents/widgets/landingWidgets/eventCard.dart';
 import 'package:uevents/widgets/landingWidgets/customListTile.dart';
 import 'package:uevents/widgets/settings.dart';
@@ -105,7 +104,11 @@ class Landing extends State<LandingPage> {
                   (context, index) {
                     return Container(
                       margin: EdgeInsets.only(top: 30),
-                      child: EventWidget(_eventsToShow[index])
+                      child: EventWidget(_eventsToShow[index], ()
+                        {
+                          Navigator.push(context, MaterialPageRoute(builder: (ctx) => ExtendedEvent(_eventsToShow[index])));
+                        }
+                     )
                     );
                   },
                   childCount: _eventsToShow.length

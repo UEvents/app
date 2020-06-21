@@ -18,7 +18,7 @@ class LandingState extends State<Landing>
       appBar: AppBar(
         backgroundColor: Colors.blueAccent
       ),
-      body: EventWidget(Data.placeHolder()),
+      body: Container()
     );
   }
 }
