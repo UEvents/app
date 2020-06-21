@@ -7,8 +7,10 @@ class EventWidget extends StatefulWidget
 {
   final Data _eventData;
   final void Function() _onDetailsButtonPressed;
+  final void Function() _onRemoveButtonPressed;
+  final void Function() _onEditButtonPressed;
 
-  EventWidget(this._eventData, this._onDetailsButtonPressed);
+  EventWidget(this._eventData, this._onDetailsButtonPressed, this._onRemoveButtonPressed, this._onEditButtonPressed);
 
   @override
   State<StatefulWidget> createState() => _EventWidgetState();
@@ -156,7 +158,8 @@ class _EventWidgetState extends State<EventWidget>
             color: _frontContainerColor,
             
             child: InkWell(
-              onTap: () {},
+              onDoubleTap: widget._onRemoveButtonPressed,
+              onLongPress: widget._onEditButtonPressed,
 
               child: Container(
                 width: _frontContainerWidth,

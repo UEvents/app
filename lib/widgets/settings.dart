@@ -12,18 +12,15 @@ class Settings extends State<SettingsPage> {
         backgroundColor: Colors.pinkAccent,
         leading: InkWell(
           child: Icon(Icons.arrow_back),
-          onTap: () { print('returning from Settings to Main Screen'); Navigator.pop(context);},
+          onTap: () { Navigator.pop(context);},
         ),
       ),
       body: Column(children: [
-        Padding(
-            padding: const EdgeInsets.fromLTRB(13, 13, 320, 10),
-            child: Text('Настройки',
-                style: TextStyle(
-                    color: Colors.grey[500], fontWeight: FontWeight.bold))),
-           settingsWidgets.CustomListTile(Icons.person, 'Личные данные', () => {Navigator.push(context, MaterialPageRoute(builder: (ctx) => PersonalDataPage()))}),  
-           settingsWidgets.CustomListTile(Icons.notifications, 'Уведомления', () => {}),
-           settingsWidgets.CustomListTile(Icons.info_outline, 'Информация', () => {}),           
+        
+          settingsWidgets.CustomListTile(Icons.person, 'Личные данные', 
+            () => { Navigator.push(context, MaterialPageRoute(builder: (ctx) => PersonalDataPage()))}),  
+          settingsWidgets.CustomListTile(Icons.notifications, 'Уведомления', () => {}),
+          settingsWidgets.CustomListTile(Icons.info_outline, 'Информация', () => {}),           
       ]),
     ));
   }

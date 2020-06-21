@@ -16,11 +16,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 class Landing extends State<LandingPage> {
   bool _adminAccess = false;
-  bool _isFirst = true;
-  static Stream<List<Data>> _databaseEvents = DatabaseService().getEvents();
+  Stream<List<Data>> _databaseEvents = DatabaseService().getEvents();
   List<Data> _eventsToShow = List<Data>();
-  User user;
-
+  static User user; 
+  
   @override
   Widget build(BuildContext context) {
     user = Provider.of<User>(context);
@@ -31,12 +30,8 @@ class Landing extends State<LandingPage> {
       setState(() { _adminAccess = false; });
 
     _databaseEvents.listen((dataList) {
-      if (_isFirst)
-      {
-        _eventsToShow = dataList;
-        _isFirst = false;
-        setState(() {});  
-      }
+      if (this.mounted)
+        setState(() { _eventsToShow = dataList; });  
     });
 
     return Container(
@@ -64,7 +59,7 @@ class Landing extends State<LandingPage> {
                     ),
                     Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                     Text(
-                      user.email, 
+                      user.name, 
                       style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
                   ],
@@ -104,9 +99,40 @@ class Landing extends State<LandingPage> {
                   (context, index) {
                     return Container(
                       margin: EdgeInsets.only(top: 30),
-                      child: EventWidget(_eventsToShow[index], ()
-                        {
+                      child: EventWidget(_eventsToShow[index], 
+                        () {
                           Navigator.push(context, MaterialPageRoute(builder: (ctx) => ExtendedEvent(_eventsToShow[index])));
+                        },
+                        () {
+                          showDialog(context: context, builder: (cont) =>
+                            AlertDialog(
+                              title: Text('Вы уверены что хотите удалить это мероприятие?', style: TextStyle(color: Colors.black)),
+                              actions: [
+                                FlatButton(child: Text('Нет'), onPressed: () {
+                                  Navigator.of(context).pop();
+                                }),
+                                FlatButton(child: Text('Да'), onPressed: () {
+                                  DatabaseService().removeEvent(_eventsToShow[index]);
+                                  Navigator.of(context).pop();
+                                })
+                              ]
+                            )
+                          );
+                        },
+                        () {
+                          showDialog(context: context, builder: (cont) =>
+                            AlertDialog(
+                              title: Text('Изменить информацию об этом мероприятии?', style: TextStyle(color: Colors.black)),
+                              actions: [
+                                FlatButton(child: Text('Нет'), onPressed: () {
+                                  Navigator.of(context).pop();
+                                }),
+                                FlatButton(child: Text('Да'), onPressed: () {
+                                  Navigator.of(context).pop();
+                                })
+                              ]
+                            )
+                          );
                         }
                      )
                     );

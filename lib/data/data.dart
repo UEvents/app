@@ -11,6 +11,7 @@ class Data {
   String organizer;
   String address;
   String imageSrc;
+  DocumentReference organizerRef;
   Timestamp date;
   Timestamp startTime;
   Timestamp endTime;
@@ -30,12 +31,20 @@ class Data {
   }
 
   Data(this.uid, this.title, this.description, this.organizer, this.address,
-      this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime, this.participants);
+      this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime, this.participants, this.organizerRef) 
+      {
+        if (organizerRef != null) 
+          organizerRef.get().asStream().listen((event) {
+            organizer = event.data['name'];
+            print(organizer);
+          });
+      }
 
-  Data copy() {
-    return Data(this.uid, this.title, this.description, this.organizer,
-        this.address, this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime, this.participants);
-  }
+  //Data copy() {
+  //  return Data(this.uid, this.title, this.description, this.organizer,
+  //      this.address, this.shortDescription, this.imageSrc, this.date, this.startTime, this.endTime, this.participants,
+  //      this.organizerRef);
+  //}
 
   Data.fromJson(String uid, Map<String, dynamic> data){
     this.uid = data['uid'];
@@ -49,6 +58,7 @@ class Data {
     startTime = data['startTime'];
     endTime = data['endTime'];
     participants = data['participants'];
+    organizerRef = data['organizerRef'];
   }
 
    Map<String, dynamic> toMap(){
@@ -63,7 +73,8 @@ class Data {
       "date": date,
       "startTime": startTime,
       "endTime": endTime,
-      "participants": participants
+      "participants": participants,
+      "organizerRef": organizerRef
     };
   }
 }

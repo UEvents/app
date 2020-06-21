@@ -10,7 +10,6 @@ import 'package:uevents/data/data.dart';
 import 'package:uevents/domain/user.dart';
 import 'package:uevents/services/database.dart';
 import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:uevents/widgets/formElement.dart';
 
 class AddEvent extends StatefulWidget {
@@ -37,7 +36,8 @@ class _AddEventState extends State<AddEvent> {
     Timestamp.fromDate(DateTime.now()),
     Timestamp.fromDate(DateTime.now()),
     Timestamp.fromDate(DateTime.now()),
-    new List<User>()
+    new List<User>(),
+    null
   );
 
   @override
@@ -62,14 +62,15 @@ class _AddEventState extends State<AddEvent> {
       buildToast('Упс! Что-то пошло не так');
     }
   }
-  //TODO: вынести форму в отдельный класс
-
   Widget build(BuildContext context) {
     user = Provider.of<User>(context);
+    event.organizer = user.name;
+    event.organizerRef = Firestore.instance.collection('users').document(user.id);
+
     return Container(
         child: Scaffold(
             appBar: AppBar(
-              title: Text('Создание мероприятия', style: TextStyle(fontSize: 20)),
+              title: Text('Создание мероприятия', style: TextStyle(fontSize: 18)),
               backgroundColor: Colors.pinkAccent,
               actions: <Widget>[SaveButton(onPressedFunc: _saveEvent)],
             ),
@@ -90,18 +91,18 @@ class _AddEventState extends State<AddEvent> {
                       [
                         FormBuilderValidators.required(),
                         //FormBuilderValidators.minLength(30),
-                        FormBuilderValidators.maxLength(120)
+                        FormBuilderValidators.maxLength(150)
                       ]),
                       FormElement.createTextElement("Полное описание", (val) => event.description = val, 
                       [
                         FormBuilderValidators.required(),
                         FormBuilderValidators.maxLength(1500)
                       ]), 
-                      FormElement.createTextElement("Организатор", (val) => event.organizer = val, 
-                      [
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.maxLength(100),
-                      ]),
+                      //FormElement.createTextElement("Организатор", (val) => event.organizer = val, 
+                      //[
+                      //  FormBuilderValidators.required(),
+                      //  FormBuilderValidators.maxLength(100),
+                      //]),
                       FormElement.createTextElement("Адрес", (val) => event.address = val, 
                       [
                         FormBuilderValidators.required(),
@@ -110,7 +111,6 @@ class _AddEventState extends State<AddEvent> {
                       FormElement.createTextElement("Ссылка на изображение", (val) => event.imageSrc = val, 
                       [
                         FormBuilderValidators.required(errorText: "Поле не может быть пустым"),
-                        FormBuilderValidators.maxLength(120),
                       ]),
                       FormElement.createDateElement("Дата проведения", (val) => 
                       {

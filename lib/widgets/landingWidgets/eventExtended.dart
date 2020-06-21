@@ -24,7 +24,7 @@ import 'package:uevents/services/database.dart';
     @override
     void initState() {
       super.initState();
-      AuthService().currentUser.listen((user) { _userId = user.id; setState(() {}); });
+      AuthService().currentUser.listen((user) { if (user != null) _userId = user.id; setState(() {}); });
     }
 
     @override

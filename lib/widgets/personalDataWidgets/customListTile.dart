@@ -32,8 +32,8 @@ class CustomListTile extends StatelessWidget {
                         Padding(
                           child: Text(accountInformation,
                               style: TextStyle(
-                                  fontSize: 16, color: Colors.grey[600])),
-                          padding: EdgeInsets.all(5),
+                                  fontSize: 14, color: Colors.grey[600])),
+                          padding: EdgeInsets.only(left: 5),
                         ),
                       ],
                     ),

@@ -7,9 +7,15 @@ class DatabaseService{
   final CollectionReference _userCollection = Firestore.instance.collection('users');
   Data data;
 
-  Future addOrUpdateEvent(Data events) async {
+  Future addOrUpdateEvent(Data event) async {
     print('addorupdate');
-    return await _eventCollection.document(events.uid).setData(events.toMap());
+    return await _eventCollection.document(event.uid).setData(event.toMap());
+  }
+
+  void removeEvent(Data event) async 
+  {
+    print('remove');
+    await _eventCollection.document(event.uid).delete();
   }
 
   Future addOrUpdateUserInfo(User user) async {

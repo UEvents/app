@@ -15,11 +15,13 @@ class PersonalData extends State<PersonalDataPage> {
         backgroundColor: Colors.pinkAccent,
       ),
       body: Column(children: [
-        Padding(
-            padding: const EdgeInsets.fromLTRB(13, 13, 285, 10),
-            child: Text('Личные данные',
-                style: TextStyle(
-                    color: Colors.grey[500], fontWeight: FontWeight.bold))),
+        Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.only(top: 15, left: 14),
+          child: Text('Личные данные',
+            style: TextStyle(
+                color: Colors.grey[500], fontWeight: FontWeight.bold)),
+        ),
         CustomListTile('Email:', user.email, () => {}),
         CustomListTile('ID аккаунта:', user.id, () => {}),
         CustomListTile('Уровень доступа: ', user.access.toString(), () => {})
